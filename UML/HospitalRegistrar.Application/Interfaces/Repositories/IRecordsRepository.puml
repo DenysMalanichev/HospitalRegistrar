@@ -1,0 +1,7 @@
+@startuml
+interface IRecordsRepository {
+}
+class "IGenericRepository`1"<T> {
+}
+"IGenericRepository`1" "<Record>" <|-- IRecordsRepository
+@enduml

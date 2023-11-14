@@ -1,0 +1,9 @@
+@startuml
+interface IPatientService {
+    GetAllPatientsAsync() : Task<IEnumerable<GetPatientDto>>
+    GetPatientByIdAsync(id:int) : Task<GetPatientDto>
+    AddNewPatientAsync(createPatientDto:CreatePatientDto) : Task<GetPatientDto>
+    UpdatePatientAsync(updatePatientDto:UpdatePatientDto) : Task<GetPatientDto>
+    DeletePatientAsync(id:int) : Task<GetPatientDto>
+}
+@enduml

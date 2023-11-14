@@ -1,0 +1,10 @@
+@startuml
+class Doctor {
+    + Position : string <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+}
+class "List`1"<T> {
+}
+BaseEntity <|-- Doctor
+Doctor o-> "TimeSlots<TimeSlot>" "List`1"
+@enduml

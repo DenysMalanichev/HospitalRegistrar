@@ -1,0 +1,12 @@
+@startuml
+class PatientService {
+    + PatientService(patientRepository:IPatientRepository)
+    + GetAllPatientsAsync() : Task<IEnumerable<GetPatientDto>>
+    + GetPatientByIdAsync(id:int) : Task<GetPatientDto>
+    + AddNewPatientAsync(createPatientDto:CreatePatientDto) : Task<GetPatientDto>
+    + UpdatePatientAsync(updatePatientDto:UpdatePatientDto) : Task<GetPatientDto>
+    + DeletePatientAsync(id:int) : Task<GetPatientDto>
+}
+IPatientService <|-- PatientService
+PatientService --> "_patientRepository" IPatientRepository
+@enduml

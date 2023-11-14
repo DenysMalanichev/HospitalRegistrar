@@ -1,0 +1,9 @@
+@startuml
+interface "IGenericRepository`1"<T> {
+    GetByIdAsync(id:int) : Task<T>?
+    GetAllAsync() : Task<IEnumerable<T>>
+    AddAsync(entity:T) : Task<T>
+    UpdateAsync(id:int, entity:T) : Task<T>
+    DeleteAsync(id:int) : Task<T>?
+}
+@enduml

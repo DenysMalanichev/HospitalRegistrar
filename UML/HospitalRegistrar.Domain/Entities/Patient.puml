@@ -1,0 +1,10 @@
+@startuml
+class Patient {
+    + Age : int <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+}
+class "List`1"<T> {
+}
+BaseEntity <|-- Patient
+Patient o-> "Records<Record>" "List`1"
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+interface IRecordService {
+    GetPatientCardAsync(patientId:int) : Task<IEnumerable<GetRecordDto>>
+    GetAllRecordsAsync() : Task<IEnumerable<GetRecordDto>>
+    GetRecordByIdAsync(id:int) : Task<GetRecordDto>
+    AddNewRecordAsync(createRecordDto:CreateRecordDto) : Task<GetRecordDto>
+    UpdateRecordAsync(updateRecordDto:UpdateRecordDto) : Task<GetRecordDto>
+    DeleteRecordAsync(id:int) : Task<GetRecordDto>
+}
+@enduml

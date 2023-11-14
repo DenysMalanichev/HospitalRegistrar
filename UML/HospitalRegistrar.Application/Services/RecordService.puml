@@ -1,0 +1,14 @@
+@startuml
+class RecordService {
+    + RecordService(recordsRepository:IRecordsRepository, patientService:IPatientService)
+    + GetPatientCardAsync(patientId:int) : Task<IEnumerable<GetRecordDto>>
+    + GetAllRecordsAsync() : Task<IEnumerable<GetRecordDto>>
+    + GetRecordByIdAsync(id:int) : Task<GetRecordDto>
+    + AddNewRecordAsync(createRecordDto:CreateRecordDto) : Task<GetRecordDto>
+    + UpdateRecordAsync(updateRecordDto:UpdateRecordDto) : Task<GetRecordDto>
+    + DeleteRecordAsync(id:int) : Task<GetRecordDto>
+}
+IRecordService <|-- RecordService
+RecordService --> "_recordsRepository" IRecordsRepository
+RecordService --> "_patientService" IPatientService
+@enduml

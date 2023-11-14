@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "DC5wfUExiMBdldhUIFFMCzmCVLDDLeSZN3BfErUtZIw=",
+  "Source": "HospitalRegistrar.WebAPI",
+  "BasePath": "_content/HospitalRegistrar.WebAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

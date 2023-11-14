@@ -1,0 +1,12 @@
+@startuml
+class PatientsController {
+    + PatientsController(patientService:IPatientService)
+    + <<async>> GetAllPatientsAsync() : Task<IActionResult>
+    + <<async>> GetPatientByIdAsync(id:int) : Task<IActionResult>
+    + <<async>> CreateNewPatientAsync(createPatientDto:CreatePatientDto) : Task<IActionResult>
+    + <<async>> UpdatePatientAsync(updatePatientDto:UpdatePatientDto) : Task<IActionResult>
+    + <<async>> DeletePatientAsync(id:int) : Task<IActionResult>
+}
+ControllerBase <|-- PatientsController
+PatientsController --> "_patientService" IPatientService
+@enduml

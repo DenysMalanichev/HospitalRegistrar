@@ -1,0 +1,12 @@
+D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\bin\Debug\net7.0\HospitalRegistrar.Features.deps.json
+D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\bin\Debug\net7.0\HospitalRegistrar.Features.dll
+D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\bin\Debug\net7.0\HospitalRegistrar.Features.pdb
+D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\obj\Debug\net7.0\HospitalRegistrar.Features.csproj.AssemblyReference.cache
+D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\obj\Debug\net7.0\HospitalRegistrar.Features.GeneratedMSBuildEditorConfig.editorconfig
+D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\obj\Debug\net7.0\HospitalRegistrar.Features.AssemblyInfoInputs.cache
+D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\obj\Debug\net7.0\HospitalRegistrar.Features.AssemblyInfo.cs
+D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\obj\Debug\net7.0\HospitalRegistrar.Features.csproj.CoreCompileInputs.cache
+D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\obj\Debug\net7.0\HospitalRegistrar.Features.dll
+D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\obj\Debug\net7.0\refint\HospitalRegistrar.Features.dll
+D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\obj\Debug\net7.0\HospitalRegistrar.Features.pdb
+D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\obj\Debug\net7.0\ref\HospitalRegistrar.Features.dll

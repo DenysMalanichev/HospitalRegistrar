@@ -1,0 +1,13 @@
+@startuml
+class RecordsController {
+    + RecordsController(recordService:IRecordService)
+    + <<async>> GetPatientCardAsync(patientId:int) : Task<IActionResult>
+    + <<async>> GetRecordByIdAsync(id:int) : Task<IActionResult>
+    + <<async>> GetAllRecordsAsync() : Task<IActionResult>
+    + <<async>> CreateNewRecordAsync(createRecordDto:CreateRecordDto) : Task<IActionResult>
+    + <<async>> UpdateRecordAsync(updateRecordDto:UpdateRecordDto) : Task<IActionResult>
+    + <<async>> DeleteRecordAsync(id:int) : Task<IActionResult>
+}
+ControllerBase <|-- RecordsController
+RecordsController --> "_recordService" IRecordService
+@enduml

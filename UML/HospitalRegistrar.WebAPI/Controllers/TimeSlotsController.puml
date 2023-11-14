@@ -1,0 +1,14 @@
+@startuml
+class TimeSlotsController {
+    + TimeSlotsController(timeSlotService:ITimeSlotService)
+    + <<async>> GetTimeSlotsByDoctorsSpecialityAsync(speciality:string) : Task<IActionResult>
+    + <<async>> GetTimeSlotsByDoctorAsync(doctorId:int) : Task<IActionResult>
+    + <<async>> GetAllTimeSlotsAsync(id:int) : Task<IActionResult>
+    + <<async>> GetTimeSlotByIdAsync(id:int) : Task<IActionResult>
+    + <<async>> CreateNewTimeSlotAsync(createTimeSlotDto:CreateTimeSlotDto) : Task<IActionResult>
+    + <<async>> UpdateTimeSlotAsync(updateTimeSlotDto:UpdateTimeSlotDto) : Task<IActionResult>
+    + <<async>> DeleteTimeSlotAsync(id:int) : Task<IActionResult>
+}
+ControllerBase <|-- TimeSlotsController
+TimeSlotsController --> "_timeSlotService" ITimeSlotService
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+class Record {
+    + Diagnosis : string <<get>> <<set>>
+    + DoctorId : int <<get>> <<set>>
+    + PatientId : int <<get>> <<set>>
+    + TimeSlotId : int <<get>> <<set>>
+}
+BaseEntity <|-- Record
+Record o-> "Doctor" Doctor
+Record o-> "Patient" Patient
+Record o-> "TimeSlot" TimeSlot
+@enduml

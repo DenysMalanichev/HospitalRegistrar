@@ -1,0 +1,7 @@
+@startuml
+interface IPatientRepository {
+}
+class "IGenericRepository`1"<T> {
+}
+"IGenericRepository`1" "<Patient>" <|-- IPatientRepository
+@enduml

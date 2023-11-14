@@ -1,0 +1,47 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "HospitalRegistrar.Persistence/1.0.0": {
+        "dependencies": {
+          "HospitalRegistrar.Domain": "1.0.0",
+          "HospitalRegistrar.Features": "1.0.0"
+        },
+        "runtime": {
+          "HospitalRegistrar.Persistence.dll": {}
+        }
+      },
+      "HospitalRegistrar.Domain/1.0.0": {
+        "runtime": {
+          "HospitalRegistrar.Domain.dll": {}
+        }
+      },
+      "HospitalRegistrar.Features/1.0.0": {
+        "runtime": {
+          "HospitalRegistrar.Features.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "HospitalRegistrar.Persistence/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "HospitalRegistrar.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "HospitalRegistrar.Features/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

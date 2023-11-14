@@ -1,0 +1,7 @@
+@startuml
+interface ITimeSlotsRepository {
+}
+class "IGenericRepository`1"<T> {
+}
+"IGenericRepository`1" "<TimeSlot>" <|-- ITimeSlotsRepository
+@enduml

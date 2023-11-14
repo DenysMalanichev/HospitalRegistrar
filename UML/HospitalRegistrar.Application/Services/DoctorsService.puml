@@ -1,0 +1,12 @@
+@startuml
+class DoctorsService {
+    + DoctorsService(doctorsRepository:IDoctorsRepository)
+    + GetAllDoctorsAsync() : Task<IEnumerable<GetDoctorDto>>
+    + GetDoctorByIdAsync(id:int) : Task<GetDoctorDto>
+    + AddNewDoctorAsync(createDoctorDto:CreateDoctorDto) : Task<GetDoctorDto>
+    + UpdateDoctorAsync(updateDoctorDto:UpdateDoctorDto) : Task<GetDoctorDto>
+    + DeleteDoctorAsync(id:int) : Task<GetDoctorDto>
+}
+IDoctorsService <|-- DoctorsService
+DoctorsService --> "_doctorsRepository" IDoctorsRepository
+@enduml

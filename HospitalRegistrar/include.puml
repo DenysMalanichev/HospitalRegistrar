@@ -1,0 +1,112 @@
+@startuml
+class "Configure`1"<T> {
+}
+class BaseEntity {
+    + Id : int <<get>> <<set>>
+}
+class Doctor {
+    + Position : string <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+}
+class "List`1"<T> {
+}
+BaseEntity <|-- Doctor
+Doctor o-> "TimeSlots<TimeSlot>" "List`1"
+class Patient {
+    + Age : int <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+}
+class "List`1"<T> {
+}
+BaseEntity <|-- Patient
+Patient o-> "Records<Record>" "List`1"
+class Record {
+    + Diagnosis : string <<get>> <<set>>
+    + DoctorId : int <<get>> <<set>>
+    + PatientId : int <<get>> <<set>>
+    + TimeSlotId : int <<get>> <<set>>
+}
+BaseEntity <|-- Record
+Record o-> "Doctor" Doctor
+Record o-> "Patient" Patient
+Record o-> "TimeSlot" TimeSlot
+class TimeSlot {
+    + IsVacant : bool <<get>> <<set>>
+}
+class "List`1"<T> {
+}
+BaseEntity <|-- TimeSlot
+TimeSlot --> "TimeBegin" DateTime
+TimeSlot --> "TimeEnd" DateTime
+TimeSlot o-> "Doctors<Doctor>" "List`1"
+TimeSlot o-> "Record" Record
+class CreateDoctorDto <<record>> {
+    + Position : string <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+}
+class UpdateDoctorDto <<record>> {
+    + Id : int <<get>> <<set>>
+    + Position : string <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+}
+class CreatePatientDto <<record>> {
+    + Age : int <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+}
+class UpdatePatientDto <<record>> {
+    + Id : int <<get>> <<set>>
+    + Age : int <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+}
+class CreateRecordDto <<record>> {
+    + Diagnosis : string <<get>> <<set>>
+    + DoctorId : int <<get>> <<set>>
+    + PatientId : int <<get>> <<set>>
+    + TimeSlotId : int <<get>> <<set>>
+}
+class UpdateRecordDto <<record>> {
+    + Id : int <<get>> <<set>>
+    + Diagnosis : string <<get>> <<set>>
+    + DoctorId : int <<get>> <<set>>
+    + PatientId : int <<get>> <<set>>
+    + TimeSlotId : int <<get>> <<set>>
+}
+class CreateTimeSlotDto <<record>> {
+}
+class UpdateTimeSlotDto <<record>> {
+    + Id : int <<get>> <<set>>
+}
+UpdateTimeSlotDto --> "TimeBegin" DateTime
+UpdateTimeSlotDto --> "TimeEnd" DateTime
+class DoctorsController {
+    + <<async>> GetDoctorByIdAsync(id:int) : Task<IActionResult>
+    + <<async>> CreateNewDoctorAsync(createDoctorDto:CreateDoctorDto) : Task<IActionResult>
+    + <<async>> UpdateDoctorAsync(updateDoctorDto:UpdateDoctorDto) : Task<IActionResult>
+    + <<async>> DeleteDoctorAsync(id:int) : Task<IActionResult>
+}
+ControllerBase <|-- DoctorsController
+class PatientsController {
+    + <<async>> GetPatientByIdAsync(id:int) : Task<IActionResult>
+    + <<async>> CreateNewPatientAsync(createPatientDto:CreatePatientDto) : Task<IActionResult>
+    + <<async>> UpdatePatientAsync(updatePatientDto:UpdatePatientDto) : Task<IActionResult>
+    + <<async>> DeletePatientAsync(id:int) : Task<IActionResult>
+}
+ControllerBase <|-- PatientsController
+class RecordsController {
+    + <<async>> GetPatientCardAsync(patientId:int) : Task<IActionResult>
+    + <<async>> GetRecordByIdAsync(id:int) : Task<IActionResult>
+    + <<async>> CreateNewRecordAsync(createRecordDto:CreateRecordDto) : Task<IActionResult>
+    + <<async>> UpdateRecordAsync(updateRecordDto:UpdateRecordDto) : Task<IActionResult>
+    + <<async>> DeleteRecordAsync(id:int) : Task<IActionResult>
+}
+ControllerBase <|-- RecordsController
+class TimeSlotsController {
+    + <<async>> GetTimeSlotsByDoctorsSpecialityAsync(speciality:string) : Task<IActionResult>
+    + <<async>> GetTimeSlotsByDoctorAsync(doctorId:int) : Task<IActionResult>
+    + <<async>> GetTimeSlotByIdAsync(id:int) : Task<IActionResult>
+    + <<async>> CreateNewTimeSlotAsync(createTimeSlotDto:CreateTimeSlotDto) : Task<IActionResult>
+    + <<async>> UpdateTimeSlotAsync(updateTimeSlotDto:UpdateTimeSlotDto) : Task<IActionResult>
+    + <<async>> DeleteTimeSlotAsync(id:int) : Task<IActionResult>
+}
+ControllerBase <|-- TimeSlotsController
+@enduml

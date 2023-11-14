@@ -1,0 +1,9 @@
+@startuml
+interface IDoctorsService {
+    GetAllDoctorsAsync() : Task<IEnumerable<GetDoctorDto>>
+    GetDoctorByIdAsync(id:int) : Task<GetDoctorDto>
+    AddNewDoctorAsync(createDoctorDto:CreateDoctorDto) : Task<GetDoctorDto>
+    UpdateDoctorAsync(updateDoctorDto:UpdateDoctorDto) : Task<GetDoctorDto>
+    DeleteDoctorAsync(id:int) : Task<GetDoctorDto>
+}
+@enduml

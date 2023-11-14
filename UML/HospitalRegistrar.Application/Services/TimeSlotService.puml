@@ -1,0 +1,16 @@
+@startuml
+class TimeSlotService {
+    + TimeSlotService(patientService:IPatientService, timeSlotsRepository:ITimeSlotsRepository, doctorsService:IDoctorsService)
+    + GetAllVacantTimeSlotsForSpecialityAsync(speciality:string) : Task<IEnumerable<GetTimeSlotDto>>
+    + GetAllVacantTimeSlotsForDoctorAsync(doctorId:int) : Task<IEnumerable<GetTimeSlotDto>>
+    + GetAllTimeSlotsAsync() : Task<IEnumerable<GetTimeSlotDto>>
+    + GetTimeSlotByIdAsync(id:int) : Task<GetTimeSlotDto>
+    + AddNewTimeSlotAsync(createTimeSlotDto:CreateTimeSlotDto) : Task<GetTimeSlotDto>
+    + UpdateTimeSlotAsync(updateTimeSlotDto:UpdateTimeSlotDto) : Task<GetTimeSlotDto>
+    + DeleteTimeSlotAsync(id:int) : Task<GetTimeSlotDto>
+}
+ITimeSlotService <|-- TimeSlotService
+TimeSlotService --> "_patientService" IPatientService
+TimeSlotService --> "_timeSlotsRepository" ITimeSlotsRepository
+TimeSlotService --> "_doctorsService" IDoctorsService
+@enduml
