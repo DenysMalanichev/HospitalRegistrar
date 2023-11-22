@@ -46,7 +46,7 @@ public class DoctorsController : ControllerBase
     {
         var updatedDoctor = await _doctorsService.UpdateDoctorAsync(updateDoctorDto);
 
-        return Ok(updateDoctorDto);
+        return Ok(updatedDoctor);
     }
     
     [HttpDelete]

@@ -5,7 +5,7 @@ using HospitalRegistrar.Domain.Entities;
 using HospitalRegistrar.Features.DoctorFeatures;
 using Moq;
 
-namespace HospitalRegistrar.Core.Tests;
+namespace HospitalRegistrar.Core.Tests.Services;
 
 public class DoctorsServiceTests
 {

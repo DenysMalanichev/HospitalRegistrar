@@ -17,34 +17,44 @@ public class PatientsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllPatientsAsync()
     {
-        throw new NotImplementedException();
+        var patients = await _patientService.GetAllPatientsAsync();
+
+        return Ok(patients);
     }
     
     [HttpGet]
     [Route("{id:int}")]
     public async Task<IActionResult> GetPatientByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var patient = await _patientService.GetPatientByIdAsync(id);
+
+        return Ok(patient);
     }
     
     [HttpPost]
     [Route("new")]
-    public async Task<IActionResult> CreateNewPatientAsync(CreatePatientDto createPatientDto)
+    public async Task<IActionResult> CreateNewPatientAsync([FromBody] CreatePatientDto createPatientDto)
     {
-        throw new NotImplementedException();
+        var createdPatient = await _patientService.AddNewPatientAsync(createPatientDto);
+
+        return Ok(createdPatient);
     }
     
     [HttpPut]
     [Route("update")]
-    public async Task<IActionResult> UpdatePatientAsync(UpdatePatientDto updatePatientDto)
+    public async Task<IActionResult> UpdatePatientAsync([FromBody] UpdatePatientDto updatePatientDto)
     {
-        throw new NotImplementedException();
+        var updatedPatient = await _patientService.UpdatePatientAsync(updatePatientDto);
+
+        return Ok(updatedPatient);
     }
     
     [HttpDelete]
-    [Route("delete")]
+    [Route("delete/{id:int}")]
     public async Task<IActionResult> DeletePatientAsync(int id)
     {
-        throw new NotImplementedException();
+        var deletedPatient = await _patientService.DeletePatientAsync(id);
+
+        return Ok(deletedPatient);
     }
 }
