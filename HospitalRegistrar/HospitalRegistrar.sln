@@ -16,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalRegistrar.Persistence", "HospitalRegistrar.Persistence\HospitalRegistrar.Persistence.csproj", "{F3CEB386-6DA6-41C4-8E17-4ACE7EAC9372}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalRegistrar.Persistence.Tests", "HospitalRegistrar.Persistence.Tests\HospitalRegistrar.Persistence.Tests.csproj", "{8B584B4A-A3AF-4BFD-ABB4-3C6EE5014C07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalRegistrar.Core.Tests", "HospitalRegistrar.Core.Tests\HospitalRegistrar.Core.Tests.csproj", "{11DC396F-5327-4F1C-9378-72D1AB697509}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +46,14 @@ Global
 		{F3CEB386-6DA6-41C4-8E17-4ACE7EAC9372}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3CEB386-6DA6-41C4-8E17-4ACE7EAC9372}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3CEB386-6DA6-41C4-8E17-4ACE7EAC9372}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B584B4A-A3AF-4BFD-ABB4-3C6EE5014C07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B584B4A-A3AF-4BFD-ABB4-3C6EE5014C07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B584B4A-A3AF-4BFD-ABB4-3C6EE5014C07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B584B4A-A3AF-4BFD-ABB4-3C6EE5014C07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11DC396F-5327-4F1C-9378-72D1AB697509}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11DC396F-5327-4F1C-9378-72D1AB697509}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11DC396F-5327-4F1C-9378-72D1AB697509}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11DC396F-5327-4F1C-9378-72D1AB697509}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C3B84DAB-91C3-440E-8144-1D5E89D08AB6} = {0924B92C-10A9-4230-A117-B2C5B233CAF1}
@@ -49,5 +61,7 @@ Global
 		{6926D1BA-C583-45E1-91BC-CC57BF130188} = {FBBC30C2-1C38-4B38-BDC1-0FAA0CD13107}
 		{EC47F430-80C4-4D20-B1D6-B8AA9AD29D7B} = {FBBC30C2-1C38-4B38-BDC1-0FAA0CD13107}
 		{F3CEB386-6DA6-41C4-8E17-4ACE7EAC9372} = {796A0E38-70B4-4C4E-B635-4E98CC72B5D5}
+		{8B584B4A-A3AF-4BFD-ABB4-3C6EE5014C07} = {796A0E38-70B4-4C4E-B635-4E98CC72B5D5}
+		{11DC396F-5327-4F1C-9378-72D1AB697509} = {FBBC30C2-1C38-4B38-BDC1-0FAA0CD13107}
 	EndGlobalSection
 EndGlobal

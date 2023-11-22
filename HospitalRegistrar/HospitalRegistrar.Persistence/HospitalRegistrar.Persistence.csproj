@@ -7,8 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\HospitalRegistrar.Application\HospitalRegistrar.Application.csproj" />
       <ProjectReference Include="..\HospitalRegistrar.Domain\HospitalRegistrar.Domain.csproj" />
       <ProjectReference Include="..\HospitalRegistrar.Features\HospitalRegistrar.Features.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.14" />
     </ItemGroup>
 
 </Project>

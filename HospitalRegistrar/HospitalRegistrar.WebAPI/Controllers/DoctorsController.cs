@@ -17,34 +17,44 @@ public class DoctorsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllDoctorsAsync()
     {
-        throw new NotImplementedException();
+        var doctors = await _doctorsService.GetAllDoctorsAsync();
+
+        return Ok(doctors);
     }
     
     [HttpGet]
     [Route("{id:int}")]
     public async Task<IActionResult> GetDoctorByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var doctor = await _doctorsService.GetDoctorByIdAsync(id);
+
+        return Ok(doctor);
     }
     
     [HttpPost]
     [Route("new")]
-    public async Task<IActionResult> CreateNewDoctorAsync(CreateDoctorDto createDoctorDto)
+    public async Task<IActionResult> CreateNewDoctorAsync([FromBody] CreateDoctorDto createDoctorDto)
     {
-        throw new NotImplementedException();
+        var createdDoctor = await _doctorsService.AddNewDoctorAsync(createDoctorDto);
+
+        return Ok(createdDoctor);
     }
     
     [HttpPut]
     [Route("update")]
-    public async Task<IActionResult> UpdateDoctorAsync(UpdateDoctorDto updateDoctorDto)
+    public async Task<IActionResult> UpdateDoctorAsync([FromBody] UpdateDoctorDto updateDoctorDto)
     {
-        throw new NotImplementedException();
+        var updatedDoctor = await _doctorsService.UpdateDoctorAsync(updateDoctorDto);
+
+        return Ok(updateDoctorDto);
     }
     
     [HttpDelete]
     [Route("delete/{id:int}")]
     public async Task<IActionResult> DeleteDoctorAsync(int id)
     {
-        throw new NotImplementedException();
+        var deletedDoctor = await _doctorsService.DeleteDoctorAsync(id);
+
+        return Ok(deletedDoctor);
     }
 }
