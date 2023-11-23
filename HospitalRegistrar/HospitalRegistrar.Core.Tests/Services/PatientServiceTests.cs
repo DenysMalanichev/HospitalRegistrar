@@ -2,7 +2,6 @@ using AutoMapper;
 using HospitalRegistrar.Application.Interfaces.Repositories;
 using HospitalRegistrar.Application.Services;
 using HospitalRegistrar.Domain.Entities;
-using HospitalRegistrar.Features.DoctorFeatures;
 using HospitalRegistrar.Features.PatientFeatures;
 using Moq;
 

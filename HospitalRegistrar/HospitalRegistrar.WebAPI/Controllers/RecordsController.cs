@@ -18,40 +18,52 @@ public class RecordsController : ControllerBase
     [Route("/card/{patientId:int}")]
     public async Task<IActionResult> GetPatientCardAsync(int patientId)
     {
-        throw new NotImplementedException();
+        var records = await _recordService.GetPatientCardAsync(patientId);
+
+        return Ok(records);
     }
     
     [HttpGet]
     [Route("{id:int}")]
     public async Task<IActionResult> GetRecordByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var records = await _recordService.GetRecordByIdAsync(id);
+
+        return Ok(records);
     }
     
     [HttpGet]
     public async Task<IActionResult> GetAllRecordsAsync()
     {
-        throw new NotImplementedException();
+        var records = await _recordService.GetAllRecordsAsync();
+
+        return Ok(records);
     }
     
     [HttpPost]
     [Route("new")]
-    public async Task<IActionResult> CreateNewRecordAsync(CreateRecordDto createRecordDto)
+    public async Task<IActionResult> CreateNewRecordAsync([FromBody] CreateRecordDto createRecordDto)
     {
-        throw new NotImplementedException();
+        var record = await _recordService.AddNewRecordAsync(createRecordDto);
+
+        return Ok(record);
     }
     
     [HttpPut]
     [Route("update")]
-    public async Task<IActionResult> UpdateRecordAsync(UpdateRecordDto updateRecordDto)
+    public async Task<IActionResult> UpdateRecordAsync([FromBody] UpdateRecordDto updateRecordDto)
     {
-        throw new NotImplementedException();
+        var updatedRecord = await _recordService.UpdateRecordAsync(updateRecordDto);
+
+        return Ok(updatedRecord);
     }
     
     [HttpDelete]
     [Route("delete")]
     public async Task<IActionResult> DeleteRecordAsync(int id)
     {
-        throw new NotImplementedException();
+        var deletedRecord = await _recordService.DeleteRecordAsync(id);
+
+        return Ok(deletedRecord);
     }
 }
