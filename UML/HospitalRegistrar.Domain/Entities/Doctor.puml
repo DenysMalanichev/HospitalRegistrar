@@ -7,4 +7,5 @@ class "List`1"<T> {
 }
 BaseEntity <|-- Doctor
 Doctor o-> "TimeSlots<TimeSlot>" "List`1"
+Doctor o-> "Records<Record>" "List`1"
 @enduml

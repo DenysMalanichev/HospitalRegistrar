@@ -1,0 +1,17 @@
+@startuml
+class PatientServiceTests {
+    + <<async>> AddAsync_ReturnAddedPatient() : Task
+    + <<async>> GetAllAsync_ReturnIEnumerableOfPatients() : Task
+    + <<async>> GetByIdAsync_ReturnPatient() : Task
+    + <<async>> GetByIdAsync_ThrowsException_IfEntityDoesntExist() : Task
+    + <<async>> GetByIdAsync_ThrowsException_IfIdIsNegative() : Task
+    + <<async>> UpdateAsync_ReturnUpdatedPatient() : Task
+    + <<async>> UpdateAsync_ThrowsException_IfEntityDoesntExist() : Task
+    + <<async>> DeleteAsync_ReturnUpdatedPatient() : Task
+}
+class "Mock`1"<T> {
+}
+PatientServiceTests o-> "_mapperMock<IMapper>" "Mock`1"
+PatientServiceTests o-> "_patientRepositoryMock<IPatientRepository>" "Mock`1"
+PatientServiceTests o-> "_patientService" PatientService
+@enduml

@@ -1,12 +1,15 @@
 @startuml
 class DoctorsService {
-    + DoctorsService(doctorsRepository:IDoctorsRepository)
-    + GetAllDoctorsAsync() : Task<IEnumerable<GetDoctorDto>>
-    + GetDoctorByIdAsync(id:int) : Task<GetDoctorDto>
-    + AddNewDoctorAsync(createDoctorDto:CreateDoctorDto) : Task<GetDoctorDto>
-    + UpdateDoctorAsync(updateDoctorDto:UpdateDoctorDto) : Task<GetDoctorDto>
-    + DeleteDoctorAsync(id:int) : Task<GetDoctorDto>
+    + DoctorsService(doctorsRepository:IDoctorsRepository, mapper:IMapper, timeSlotsRepository:ITimeSlotsRepository)
+    + <<async>> GetAllDoctorsAsync() : Task<IEnumerable<GetDoctorDto>>
+    + <<async>> GetDoctorByIdAsync(id:int) : Task<GetDoctorDto>
+    + <<async>> AddNewDoctorAsync(createDoctorDto:CreateDoctorDto) : Task<GetDoctorDto>
+    + <<async>> AssociateWithTimeSlot(doctorId:int, timeSlotId:int) : Task<GetDoctorDto>
+    + <<async>> UpdateDoctorAsync(updateDoctorDto:UpdateDoctorDto) : Task<GetDoctorDto>
+    + <<async>> DeleteDoctorAsync(id:int) : Task<GetDoctorDto>
 }
 IDoctorsService <|-- DoctorsService
 DoctorsService --> "_doctorsRepository" IDoctorsRepository
+DoctorsService --> "_timeSlotsRepository" ITimeSlotsRepository
+DoctorsService --> "_mapper" IMapper
 @enduml

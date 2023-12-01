@@ -1,0 +1,20 @@
+@startuml
+class DoctorsServiceTests {
+    + <<async>> AddAsync_ReturnAddedDoctor() : Task
+    + <<async>> GetAllAsync_ReturnIEnumerableOfDoctors() : Task
+    + <<async>> GetByIdAsync_ReturnDoctor() : Task
+    + <<async>> GetByIdAsync_ThrowsException_IfIdIsNegative() : Task
+    + <<async>> UpdateAsync_ReturnUpdatedDoctor() : Task
+    + <<async>> UpdateAsync_ThrowsException_IfEntityDoestExist() : Task
+    + <<async>> DeleteAsync_ReturnUpdatedDoctor() : Task
+    + <<async>> AssociateWithTimeSlot_ShouldAssociateDoctorWithTimeSlot_WhenValidIdsProvided() : Task
+    + <<async>> AssociateWithTimeSlot_ThrowsEntityNotFoundException_WhenDoctorNotFound() : Task
+    + <<async>> AssociateWithTimeSlot_ThrowsEntityNotFoundException_WhenTimeSlotNotFound() : Task
+}
+class "Mock`1"<T> {
+}
+DoctorsServiceTests o-> "_mapperMock<IMapper>" "Mock`1"
+DoctorsServiceTests o-> "_doctorRepositoryMock<IDoctorsRepository>" "Mock`1"
+DoctorsServiceTests o-> "_timeSlotRepositoryMock<ITimeSlotsRepository>" "Mock`1"
+DoctorsServiceTests o-> "_doctorsService" DoctorsService
+@enduml

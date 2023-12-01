@@ -4,6 +4,7 @@ class DoctorsController {
     + <<async>> GetAllDoctorsAsync() : Task<IActionResult>
     + <<async>> GetDoctorByIdAsync(id:int) : Task<IActionResult>
     + <<async>> CreateNewDoctorAsync(createDoctorDto:CreateDoctorDto) : Task<IActionResult>
+    + <<async>> AssociateDoctorAndTimeSlot(doctorId:int, timeSlotId:int) : Task<IActionResult>
     + <<async>> UpdateDoctorAsync(updateDoctorDto:UpdateDoctorDto) : Task<IActionResult>
     + <<async>> DeleteDoctorAsync(id:int) : Task<IActionResult>
 }

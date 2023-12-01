@@ -1,7 +1,6 @@
 @startuml
 interface ITimeSlotService {
-    GetAllVacantTimeSlotsForSpecialityAsync(speciality:string) : Task<IEnumerable<GetTimeSlotDto>>
-    GetAllVacantTimeSlotsForDoctorAsync(doctorId:int) : Task<IEnumerable<GetTimeSlotDto>>
+    GetTimeSlotsBySpecificationsAsync(criteriaRequestDto:AvailableTimeSlotsByCriteriaRequestDto) : Task<IEnumerable<GetTimeSlotDto>>
     GetAllTimeSlotsAsync() : Task<IEnumerable<GetTimeSlotDto>>
     GetTimeSlotByIdAsync(id:int) : Task<GetTimeSlotDto>
     AddNewTimeSlotAsync(createTimeSlotDto:CreateTimeSlotDto) : Task<GetTimeSlotDto>

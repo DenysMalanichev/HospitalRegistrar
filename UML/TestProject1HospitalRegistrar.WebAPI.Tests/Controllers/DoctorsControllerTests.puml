@@ -1,0 +1,11 @@
+@startuml
+class DoctorsControllerTests {
+    + <<async>> GetAllDoctorsAsync_ReturnArrayOfDoctors() : Task
+    + <<async>> GetDoctorByIdAsync_ReturnDoctor() : Task
+    + <<async>> CreateNewDoctorAsync_ReturnCreatedDoctor() : Task
+}
+class "Mock`1"<T> {
+}
+DoctorsControllerTests o-> "_doctorServiceMock<IDoctorsService>" "Mock`1"
+DoctorsControllerTests o-> "_doctorsController" DoctorsController
+@enduml

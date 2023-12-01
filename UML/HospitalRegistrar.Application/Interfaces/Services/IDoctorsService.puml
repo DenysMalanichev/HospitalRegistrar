@@ -3,6 +3,7 @@ interface IDoctorsService {
     GetAllDoctorsAsync() : Task<IEnumerable<GetDoctorDto>>
     GetDoctorByIdAsync(id:int) : Task<GetDoctorDto>
     AddNewDoctorAsync(createDoctorDto:CreateDoctorDto) : Task<GetDoctorDto>
+    AssociateWithTimeSlot(doctorId:int, timeSlotId:int) : Task<GetDoctorDto>
     UpdateDoctorAsync(updateDoctorDto:UpdateDoctorDto) : Task<GetDoctorDto>
     DeleteDoctorAsync(id:int) : Task<GetDoctorDto>
 }

@@ -1,0 +1,9 @@
+@startuml
+class DoctorRepository {
+    + DoctorRepository(context:DataContext)
+}
+class "GenericRepository`1"<T> {
+}
+"GenericRepository`1" "<Doctor>" <|-- DoctorRepository
+IDoctorsRepository <|-- DoctorRepository
+@enduml

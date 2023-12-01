@@ -1,5 +1,6 @@
 using HospitalRegistrar.Application.Configs;
 using HospitalRegistrar.Application.Mapper;
+using HospitalRegistrar.Middleware;
 using HospitalRegistrar.Persistence.Configs;
 using HospitalRegistrar.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,8 @@ builder.Services.AddCustomServices();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

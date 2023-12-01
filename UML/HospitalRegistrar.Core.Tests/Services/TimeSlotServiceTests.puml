@@ -1,0 +1,19 @@
+@startuml
+class TimeSlotServiceTests {
+    + <<async>> AddAsync_ReturnAddedTimeSlot() : Task
+    + <<async>> GetAllAsync_ReturnIEnumerableOfTimeSlots() : Task
+    + <<async>> GetByIdAsync_ReturnRecord() : Task
+    + <<async>> UpdateAsync_ReturnUpdatedRecord() : Task
+    + <<async>> UpdateAsync_ThrowsException_IfEntityDoesntExist() : Task
+    + <<async>> DeleteAsync_ReturnUpdatedRecord() : Task
+    + <<async>> GetTimeSlotsBySpecificationAsync_ReturnsIEnumerableOfTimeSlotDtos() : Task
+    + <<async>> GetTimeSlotsBySpecificationAsync_UsingAllCriterias_ReturnsIEnumerableOfTimeSlotDtos() : Task
+}
+class "Mock`1"<T> {
+}
+TimeSlotServiceTests o-> "_mapperMock<IMapper>" "Mock`1"
+TimeSlotServiceTests o-> "_timeSlotRepositoryMock<ITimeSlotsRepository>" "Mock`1"
+TimeSlotServiceTests o-> "_patientServiceMock<IPatientService>" "Mock`1"
+TimeSlotServiceTests o-> "_doctorServiceMock<IDoctorsService>" "Mock`1"
+TimeSlotServiceTests o-> "_timeSlotService" TimeSlotService
+@enduml

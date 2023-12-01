@@ -1,0 +1,11 @@
+@startuml
+class TimeSlotRepository {
+    + TimeSlotRepository(context:DataContext)
+    + <<async>> GetAvailableTimeSlotsByPredicateAsync(predicateBuilder:ExpressionStarter<TimeSlot>) : Task<IEnumerable<TimeSlot>>
+}
+class "GenericRepository`1"<T> {
+}
+"GenericRepository`1" "<TimeSlot>" <|-- TimeSlotRepository
+ITimeSlotsRepository <|-- TimeSlotRepository
+TimeSlotRepository --> "_context" DataContext
+@enduml

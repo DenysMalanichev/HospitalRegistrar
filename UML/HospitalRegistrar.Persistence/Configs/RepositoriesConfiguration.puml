@@ -1,0 +1,5 @@
+@startuml
+class RepositoriesConfiguration <<static>> {
+    + {static} AddRepositories(service:IServiceCollection) : void
+}
+@enduml

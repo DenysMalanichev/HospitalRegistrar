@@ -1,0 +1,9 @@
+@startuml
+class TimeSlotRepositoryTests {
+    + TimeSlotRepositoryTests()
+    + <<async>> GetAvailableTimeSlotsByPredicateAsync_ReturnCorrespondingEntity_IfExists() : Task
+    - {static} CreateNewContextOptions() : DbContextOptions<DataContext>
+}
+TimeSlotRepositoryTests --> "_timeSlotsRepository" ITimeSlotsRepository
+TimeSlotRepositoryTests --> "_dataContext" DataContext
+@enduml

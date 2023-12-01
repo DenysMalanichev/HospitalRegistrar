@@ -1,0 +1,11 @@
+@startuml
+class ExceptionHandlerMiddleware {
+    + ExceptionHandlerMiddleware(next:RequestDelegate, logger:ILogger<ExceptionHandlerMiddleware>)
+    + <<async>> InvokeAsync(context:HttpContext) : Task
+    - {static} <<async>> HandleExceptionAsync(context:HttpContext, exception:Exception) : Task
+}
+class "ILogger`1"<T> {
+}
+ExceptionHandlerMiddleware --> "_next" RequestDelegate
+ExceptionHandlerMiddleware --> "_logger<ExceptionHandlerMiddleware>" "ILogger`1"
+@enduml

@@ -52,17 +52,6 @@ public class TimeSlotRepositoryTests
                 TimeEnd = DateTime.Today,
             },
         };
-        var expectedTimeSlots = new List<TimeSlot>
-        {
-            new()
-            { 
-                Id = 3,
-                Doctors = new List<Doctor> {new Doctor { Id = 3, Name = "test3" }},
-                Records = new List<Record> {new Record { Id = 3 }},
-                TimeBegin = DateTime.Today.AddDays(1),
-                TimeEnd = DateTime.Today,
-            },
-        };
 
         await _dataContext.TimeSlots.AddRangeAsync(timeSlots);
         await _dataContext.SaveChangesAsync();

@@ -1,5 +1,6 @@
 @startuml
 interface ITimeSlotsRepository {
+    GetAvailableTimeSlotsByPredicateAsync(predicateBuilder:ExpressionStarter<TimeSlot>) : Task<IEnumerable<TimeSlot>>
 }
 class "IGenericRepository`1"<T> {
 }

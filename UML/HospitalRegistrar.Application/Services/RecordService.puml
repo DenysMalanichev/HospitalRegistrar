@@ -1,14 +1,18 @@
 @startuml
 class RecordService {
-    + RecordService(recordsRepository:IRecordsRepository, patientService:IPatientService)
-    + GetPatientCardAsync(patientId:int) : Task<IEnumerable<GetRecordDto>>
-    + GetAllRecordsAsync() : Task<IEnumerable<GetRecordDto>>
-    + GetRecordByIdAsync(id:int) : Task<GetRecordDto>
-    + AddNewRecordAsync(createRecordDto:CreateRecordDto) : Task<GetRecordDto>
-    + UpdateRecordAsync(updateRecordDto:UpdateRecordDto) : Task<GetRecordDto>
-    + DeleteRecordAsync(id:int) : Task<GetRecordDto>
+    + RecordService(recordsRepository:IRecordsRepository, patientRepository:IPatientRepository, doctorsRepository:IDoctorsRepository, timeSlotsRepository:ITimeSlotsRepository, mapper:IMapper)
+    + <<async>> GetPatientCardAsync(patientId:int) : Task<IEnumerable<GetRecordDto>>
+    + <<async>> GetAllRecordsAsync() : Task<IEnumerable<GetRecordDto>>
+    + <<async>> GetRecordByIdAsync(id:int) : Task<GetRecordDto>
+    + <<async>> AddNewRecordAsync(createRecordDto:CreateRecordDto) : Task<GetRecordDto>
+    + <<async>> UpdateRecordAsync(updateRecordDto:UpdateRecordDto) : Task<GetRecordDto>
+    + <<async>> DeleteRecordAsync(id:int) : Task<GetRecordDto>
+    - <<async>> ValidateForeignKeys(doctorId:int, patientId:int, timeSlotId:int) : Task
 }
 IRecordService <|-- RecordService
 RecordService --> "_recordsRepository" IRecordsRepository
-RecordService --> "_patientService" IPatientService
+RecordService --> "_patientRepository" IPatientRepository
+RecordService --> "_doctorsRepository" IDoctorsRepository
+RecordService --> "_timeSlotsRepository" ITimeSlotsRepository
+RecordService --> "_mapper" IMapper
 @enduml

@@ -1,52 +1,176 @@
 @startuml
+class PatientRepositoryTests {
+    + PatientRepositoryTests()
+    + <<async>> GetByIdAsync_ReturnCorrespondingEntity_IfExists() : Task
+    + <<async>> GetByIdAsync_ReturnNull_IfEntityDoesntExists() : Task
+    + <<async>> GetAllAsync_ReturnEnumerable_IfEntitiesExists() : Task
+    + <<async>> GetAllAsync_ReturnEmptyEnumerable_IfEntitiesDontExist() : Task
+    + <<async>> AddAsync_ReturnAddedPatient() : Task
+    + <<async>> UpdateAsync_ReturnsUpdatedPatient() : Task
+    + <<async>> DeleteAsync_ReturnDeletedPatient_IfExists() : Task
+    + <<async>> DeleteAsync_ReturnNull_IfEntityDoesntExist() : Task
+    - {static} CreateNewContextOptions() : DbContextOptions<DataContext>
+}
+PatientRepositoryTests --> "_patientRepository" IPatientRepository
+PatientRepositoryTests --> "_dataContext" DataContext
+class TimeSlotRepositoryTests {
+    + TimeSlotRepositoryTests()
+    + <<async>> GetAvailableTimeSlotsByPredicateAsync_ReturnCorrespondingEntity_IfExists() : Task
+    - {static} CreateNewContextOptions() : DbContextOptions<DataContext>
+}
+TimeSlotRepositoryTests --> "_timeSlotsRepository" ITimeSlotsRepository
+TimeSlotRepositoryTests --> "_dataContext" DataContext
 class "Configure`1"<T> {
 }
+class "AddDbContext`1"<T> {
+}
+class "UseMiddleware`1"<T> {
+}
+class ServicesConfiguration <<static>> {
+    + {static} AddCustomServices(services:IServiceCollection) : void
+}
+class EntityNotFoundException {
+    + EntityNotFoundException()
+    + EntityNotFoundException(message:string)
+    + EntityNotFoundException(message:string, innerException:Exception)
+}
+Exception <|-- EntityNotFoundException
+class AutoMapperProfile {
+    + AutoMapperProfile()
+}
+Profile <|-- AutoMapperProfile
 class DoctorsService {
-    + DoctorsService(doctorsRepository:IDoctorsRepository)
-    + GetAllDoctorsAsync() : Task<IEnumerable<GetDoctorDto>>
-    + GetDoctorByIdAsync(id:int) : Task<GetDoctorDto>
-    + AddNewDoctorAsync(createDoctorDto:CreateDoctorDto) : Task<GetDoctorDto>
-    + UpdateDoctorAsync(updateDoctorDto:UpdateDoctorDto) : Task<GetDoctorDto>
-    + DeleteDoctorAsync(id:int) : Task<GetDoctorDto>
+    + DoctorsService(doctorsRepository:IDoctorsRepository, mapper:IMapper, timeSlotsRepository:ITimeSlotsRepository)
+    + <<async>> GetAllDoctorsAsync() : Task<IEnumerable<GetDoctorDto>>
+    + <<async>> GetDoctorByIdAsync(id:int) : Task<GetDoctorDto>
+    + <<async>> AddNewDoctorAsync(createDoctorDto:CreateDoctorDto) : Task<GetDoctorDto>
+    + <<async>> AssociateWithTimeSlot(doctorId:int, timeSlotId:int) : Task<GetDoctorDto>
+    + <<async>> UpdateDoctorAsync(updateDoctorDto:UpdateDoctorDto) : Task<GetDoctorDto>
+    + <<async>> DeleteDoctorAsync(id:int) : Task<GetDoctorDto>
 }
 IDoctorsService <|-- DoctorsService
 DoctorsService --> "_doctorsRepository" IDoctorsRepository
+DoctorsService --> "_timeSlotsRepository" ITimeSlotsRepository
+DoctorsService --> "_mapper" IMapper
 class PatientService {
-    + PatientService(patientRepository:IPatientRepository)
-    + GetAllPatientsAsync() : Task<IEnumerable<GetPatientDto>>
-    + GetPatientByIdAsync(id:int) : Task<GetPatientDto>
-    + AddNewPatientAsync(createPatientDto:CreatePatientDto) : Task<GetPatientDto>
-    + UpdatePatientAsync(updatePatientDto:UpdatePatientDto) : Task<GetPatientDto>
-    + DeletePatientAsync(id:int) : Task<GetPatientDto>
+    + PatientService(patientRepository:IPatientRepository, mapper:IMapper)
+    + <<async>> GetAllPatientsAsync() : Task<IEnumerable<GetPatientDto>>
+    + <<async>> GetPatientByIdAsync(id:int) : Task<GetPatientDto>
+    + <<async>> AddNewPatientAsync(createPatientDto:CreatePatientDto) : Task<GetPatientDto>
+    + <<async>> UpdatePatientAsync(updatePatientDto:UpdatePatientDto) : Task<GetPatientDto>
+    + <<async>> DeletePatientAsync(id:int) : Task<GetPatientDto>
 }
 IPatientService <|-- PatientService
 PatientService --> "_patientRepository" IPatientRepository
+PatientService --> "_mapper" IMapper
 class RecordService {
-    + RecordService(recordsRepository:IRecordsRepository, patientService:IPatientService)
-    + GetPatientCardAsync(patientId:int) : Task<IEnumerable<GetRecordDto>>
-    + GetAllRecordsAsync() : Task<IEnumerable<GetRecordDto>>
-    + GetRecordByIdAsync(id:int) : Task<GetRecordDto>
-    + AddNewRecordAsync(createRecordDto:CreateRecordDto) : Task<GetRecordDto>
-    + UpdateRecordAsync(updateRecordDto:UpdateRecordDto) : Task<GetRecordDto>
-    + DeleteRecordAsync(id:int) : Task<GetRecordDto>
+    + RecordService(recordsRepository:IRecordsRepository, patientRepository:IPatientRepository, doctorsRepository:IDoctorsRepository, timeSlotsRepository:ITimeSlotsRepository, mapper:IMapper)
+    + <<async>> GetPatientCardAsync(patientId:int) : Task<IEnumerable<GetRecordDto>>
+    + <<async>> GetAllRecordsAsync() : Task<IEnumerable<GetRecordDto>>
+    + <<async>> GetRecordByIdAsync(id:int) : Task<GetRecordDto>
+    + <<async>> AddNewRecordAsync(createRecordDto:CreateRecordDto) : Task<GetRecordDto>
+    + <<async>> UpdateRecordAsync(updateRecordDto:UpdateRecordDto) : Task<GetRecordDto>
+    + <<async>> DeleteRecordAsync(id:int) : Task<GetRecordDto>
+    - <<async>> ValidateForeignKeys(doctorId:int, patientId:int, timeSlotId:int) : Task
 }
 IRecordService <|-- RecordService
 RecordService --> "_recordsRepository" IRecordsRepository
-RecordService --> "_patientService" IPatientService
+RecordService --> "_patientRepository" IPatientRepository
+RecordService --> "_doctorsRepository" IDoctorsRepository
+RecordService --> "_timeSlotsRepository" ITimeSlotsRepository
+RecordService --> "_mapper" IMapper
 class TimeSlotService {
-    + TimeSlotService(patientService:IPatientService, timeSlotsRepository:ITimeSlotsRepository, doctorsService:IDoctorsService)
-    + GetAllVacantTimeSlotsForSpecialityAsync(speciality:string) : Task<IEnumerable<GetTimeSlotDto>>
-    + GetAllVacantTimeSlotsForDoctorAsync(doctorId:int) : Task<IEnumerable<GetTimeSlotDto>>
-    + GetAllTimeSlotsAsync() : Task<IEnumerable<GetTimeSlotDto>>
-    + GetTimeSlotByIdAsync(id:int) : Task<GetTimeSlotDto>
-    + AddNewTimeSlotAsync(createTimeSlotDto:CreateTimeSlotDto) : Task<GetTimeSlotDto>
-    + UpdateTimeSlotAsync(updateTimeSlotDto:UpdateTimeSlotDto) : Task<GetTimeSlotDto>
-    + DeleteTimeSlotAsync(id:int) : Task<GetTimeSlotDto>
+    + TimeSlotService(patientService:IPatientService, timeSlotsRepository:ITimeSlotsRepository, doctorsService:IDoctorsService, mapper:IMapper)
+    + <<async>> GetTimeSlotsBySpecificationsAsync(criteriaRequestDto:AvailableTimeSlotsByCriteriaRequestDto) : Task<IEnumerable<GetTimeSlotDto>>
+    + <<async>> GetAllTimeSlotsAsync() : Task<IEnumerable<GetTimeSlotDto>>
+    + <<async>> GetTimeSlotByIdAsync(id:int) : Task<GetTimeSlotDto>
+    + <<async>> AddNewTimeSlotAsync(createTimeSlotDto:CreateTimeSlotDto) : Task<GetTimeSlotDto>
+    + <<async>> UpdateTimeSlotAsync(updateTimeSlotDto:UpdateTimeSlotDto) : Task<GetTimeSlotDto>
+    + <<async>> DeleteTimeSlotAsync(id:int) : Task<GetTimeSlotDto>
 }
 ITimeSlotService <|-- TimeSlotService
 TimeSlotService --> "_patientService" IPatientService
 TimeSlotService --> "_timeSlotsRepository" ITimeSlotsRepository
 TimeSlotService --> "_doctorsService" IDoctorsService
+TimeSlotService --> "_mapper" IMapper
+class DoctorsServiceTests {
+    + <<async>> AddAsync_ReturnAddedDoctor() : Task
+    + <<async>> GetAllAsync_ReturnIEnumerableOfDoctors() : Task
+    + <<async>> GetByIdAsync_ReturnDoctor() : Task
+    + <<async>> GetByIdAsync_ThrowsException_IfIdIsNegative() : Task
+    + <<async>> UpdateAsync_ReturnUpdatedDoctor() : Task
+    + <<async>> UpdateAsync_ThrowsException_IfEntityDoestExist() : Task
+    + <<async>> DeleteAsync_ReturnUpdatedDoctor() : Task
+    + <<async>> AssociateWithTimeSlot_ShouldAssociateDoctorWithTimeSlot_WhenValidIdsProvided() : Task
+    + <<async>> AssociateWithTimeSlot_ThrowsEntityNotFoundException_WhenDoctorNotFound() : Task
+    + <<async>> AssociateWithTimeSlot_ThrowsEntityNotFoundException_WhenTimeSlotNotFound() : Task
+}
+class "Mock`1"<T> {
+}
+DoctorsServiceTests o-> "_mapperMock<IMapper>" "Mock`1"
+DoctorsServiceTests o-> "_doctorRepositoryMock<IDoctorsRepository>" "Mock`1"
+DoctorsServiceTests o-> "_timeSlotRepositoryMock<ITimeSlotsRepository>" "Mock`1"
+DoctorsServiceTests o-> "_doctorsService" DoctorsService
+class PatientServiceTests {
+    + <<async>> AddAsync_ReturnAddedPatient() : Task
+    + <<async>> GetAllAsync_ReturnIEnumerableOfPatients() : Task
+    + <<async>> GetByIdAsync_ReturnPatient() : Task
+    + <<async>> GetByIdAsync_ThrowsException_IfEntityDoesntExist() : Task
+    + <<async>> GetByIdAsync_ThrowsException_IfIdIsNegative() : Task
+    + <<async>> UpdateAsync_ReturnUpdatedPatient() : Task
+    + <<async>> UpdateAsync_ThrowsException_IfEntityDoesntExist() : Task
+    + <<async>> DeleteAsync_ReturnUpdatedPatient() : Task
+}
+class "Mock`1"<T> {
+}
+PatientServiceTests o-> "_mapperMock<IMapper>" "Mock`1"
+PatientServiceTests o-> "_patientRepositoryMock<IPatientRepository>" "Mock`1"
+PatientServiceTests o-> "_patientService" PatientService
+class RecordServiceTests {
+    + <<async>> AddAsync_ReturnAddedRecord() : Task
+    + <<async>> AddAsync_ThrowsException_IfWrongForeignKey(patient:Patient, doctor:Doctor, timeSlot:TimeSlot) : Task
+    + <<async>> GetAllAsync_ReturnIEnumerableOfRecords() : Task
+    + <<async>> GetPatientCardAsync_ReturnIEnumerableOfRecords() : Task
+    + <<async>> GetPatientCardAsync_ThrowsException_IfEntityDoesntExist() : Task
+    + <<async>> GetPatientCardAsync_ThrowsException_IfIdIsNegative() : Task
+    + <<async>> GetByIdAsync_ReturnRecord() : Task
+    + <<async>> GetByIdAsync_ThrowsException_IfIdIsNegative() : Task
+    + <<async>> UpdateAsync_ReturnUpdatedRecord() : Task
+    + <<async>> UpdateAsync_ThrowsException_IfEntityDoesntExist() : Task
+    + <<async>> DeleteAsync_ReturnUpdatedRecord() : Task
+}
+class RecordNullKeysTestData {
+    + GetEnumerator() : IEnumerator<object[]>
+    - GetEnumerator() : IEnumerator
+}
+class "Mock`1"<T> {
+}
+class "IEnumerable`1"<T> {
+}
+RecordServiceTests o-> "_mapperMock<IMapper>" "Mock`1"
+RecordServiceTests o-> "_patientRepositoryMock<IPatientRepository>" "Mock`1"
+RecordServiceTests o-> "_recordRepositoryMock<IRecordsRepository>" "Mock`1"
+RecordServiceTests o-> "_doctorRepositoryMock<IDoctorsRepository>" "Mock`1"
+RecordServiceTests o-> "_timeSlotRepositoryMock<ITimeSlotsRepository>" "Mock`1"
+RecordServiceTests o-> "_recordService" RecordService
+"IEnumerable`1" "<object[]>" <|-- RecordNullKeysTestData
+class TimeSlotServiceTests {
+    + <<async>> AddAsync_ReturnAddedTimeSlot() : Task
+    + <<async>> GetAllAsync_ReturnIEnumerableOfTimeSlots() : Task
+    + <<async>> GetByIdAsync_ReturnRecord() : Task
+    + <<async>> UpdateAsync_ReturnUpdatedRecord() : Task
+    + <<async>> UpdateAsync_ThrowsException_IfEntityDoesntExist() : Task
+    + <<async>> DeleteAsync_ReturnUpdatedRecord() : Task
+    + <<async>> GetTimeSlotsBySpecificationAsync_ReturnsIEnumerableOfTimeSlotDtos() : Task
+    + <<async>> GetTimeSlotsBySpecificationAsync_UsingAllCriterias_ReturnsIEnumerableOfTimeSlotDtos() : Task
+}
+class "Mock`1"<T> {
+}
+TimeSlotServiceTests o-> "_mapperMock<IMapper>" "Mock`1"
+TimeSlotServiceTests o-> "_timeSlotRepositoryMock<ITimeSlotsRepository>" "Mock`1"
+TimeSlotServiceTests o-> "_patientServiceMock<IPatientService>" "Mock`1"
+TimeSlotServiceTests o-> "_doctorServiceMock<IDoctorsService>" "Mock`1"
+TimeSlotServiceTests o-> "_timeSlotService" TimeSlotService
 class BaseEntity {
     + Id : int <<get>> <<set>>
 }
@@ -58,6 +182,7 @@ class "List`1"<T> {
 }
 BaseEntity <|-- Doctor
 Doctor o-> "TimeSlots<TimeSlot>" "List`1"
+Doctor o-> "Records<Record>" "List`1"
 class Patient {
     + Age : int <<get>> <<set>>
     + Name : string <<get>> <<set>>
@@ -77,7 +202,6 @@ Record o-> "Doctor" Doctor
 Record o-> "Patient" Patient
 Record o-> "TimeSlot" TimeSlot
 class TimeSlot {
-    + IsVacant : bool <<get>> <<set>>
 }
 class "List`1"<T> {
 }
@@ -85,12 +209,94 @@ BaseEntity <|-- TimeSlot
 TimeSlot --> "TimeBegin" DateTime
 TimeSlot --> "TimeEnd" DateTime
 TimeSlot o-> "Doctors<Doctor>" "List`1"
-TimeSlot o-> "Record" Record
+TimeSlot o-> "Records<Record>" "List`1"
+class RepositoriesConfiguration <<static>> {
+    + {static} AddRepositories(service:IServiceCollection) : void
+}
+class DataContext {
+    + DataContext(options:DbContextOptions<DataContext>)
+    # <<override>> OnModelCreating(modelBuilder:ModelBuilder) : void
+}
+class "DbSet`1"<T> {
+}
+DbContext <|-- DataContext
+DataContext --> "Doctors<Doctor>" "DbSet`1"
+DataContext --> "Patients<Patient>" "DbSet`1"
+DataContext --> "Records<Record>" "DbSet`1"
+DataContext --> "TimeSlots<TimeSlot>" "DbSet`1"
+class InitialMig <<partial>> {
+    # <<override>> Up(migrationBuilder:MigrationBuilder) : void
+    # <<override>> Down(migrationBuilder:MigrationBuilder) : void
+}
+Migration <|-- InitialMig
+class InitialMig <<partial>> {
+    # <<override>> BuildTargetModel(modelBuilder:ModelBuilder) : void
+}
+class RecordToTimeSlotManyToOneMig <<partial>> {
+    # <<override>> Up(migrationBuilder:MigrationBuilder) : void
+    # <<override>> Down(migrationBuilder:MigrationBuilder) : void
+}
+Migration <|-- RecordToTimeSlotManyToOneMig
+class RecordToTimeSlotManyToOneMig <<partial>> {
+    # <<override>> BuildTargetModel(modelBuilder:ModelBuilder) : void
+}
+class DataContextModelSnapshot <<partial>> {
+    # <<override>> BuildModel(modelBuilder:ModelBuilder) : void
+}
+ModelSnapshot <|-- DataContextModelSnapshot
+class DoctorRepository {
+    + DoctorRepository(context:DataContext)
+}
+class "GenericRepository`1"<T> {
+}
+"GenericRepository`1" "<Doctor>" <|-- DoctorRepository
+IDoctorsRepository <|-- DoctorRepository
+class "GenericRepository`1"<T> {
+    # GenericRepository(context:DataContext)
+    + <<async>> GetByIdAsync(id:int) : Task<T>?
+    + <<async>> GetAllAsync() : Task<IEnumerable<T>>
+    + <<async>> AddAsync(entity:T) : Task<T>
+    + <<async>> UpdateAsync(id:int, entity:T) : Task<T>
+    + <<async>> DeleteAsync(id:int) : Task<T>?
+    + <<async>> Dispose() : void
+}
+class "IGenericRepository`1"<T> {
+}
+class "DbSet`1"<T> {
+}
+"IGenericRepository`1" "<T>" <|-- "GenericRepository`1"
+IDisposable <|-- "GenericRepository`1"
+"GenericRepository`1" --> "_context" DataContext
+"GenericRepository`1" --> "_table<T>" "DbSet`1"
+class PatientRepository {
+    + PatientRepository(context:DataContext)
+}
+class "GenericRepository`1"<T> {
+}
+"GenericRepository`1" "<Patient>" <|-- PatientRepository
+IPatientRepository <|-- PatientRepository
+class RecordRepository {
+    + RecordRepository(context:DataContext)
+}
+class "GenericRepository`1"<T> {
+}
+"GenericRepository`1" "<Record>" <|-- RecordRepository
+IRecordsRepository <|-- RecordRepository
+class TimeSlotRepository {
+    + TimeSlotRepository(context:DataContext)
+    + <<async>> GetAvailableTimeSlotsByPredicateAsync(predicateBuilder:ExpressionStarter<TimeSlot>) : Task<IEnumerable<TimeSlot>>
+}
+class "GenericRepository`1"<T> {
+}
+"GenericRepository`1" "<TimeSlot>" <|-- TimeSlotRepository
+ITimeSlotsRepository <|-- TimeSlotRepository
+TimeSlotRepository --> "_context" DataContext
 class DoctorsController {
     + DoctorsController(doctorsService:IDoctorsService)
     + <<async>> GetAllDoctorsAsync() : Task<IActionResult>
     + <<async>> GetDoctorByIdAsync(id:int) : Task<IActionResult>
     + <<async>> CreateNewDoctorAsync(createDoctorDto:CreateDoctorDto) : Task<IActionResult>
+    + <<async>> AssociateDoctorAndTimeSlot(doctorId:int, timeSlotId:int) : Task<IActionResult>
     + <<async>> UpdateDoctorAsync(updateDoctorDto:UpdateDoctorDto) : Task<IActionResult>
     + <<async>> DeleteDoctorAsync(id:int) : Task<IActionResult>
 }
@@ -119,9 +325,8 @@ ControllerBase <|-- RecordsController
 RecordsController --> "_recordService" IRecordService
 class TimeSlotsController {
     + TimeSlotsController(timeSlotService:ITimeSlotService)
-    + <<async>> GetTimeSlotsByDoctorsSpecialityAsync(speciality:string) : Task<IActionResult>
-    + <<async>> GetTimeSlotsByDoctorAsync(doctorId:int) : Task<IActionResult>
-    + <<async>> GetAllTimeSlotsAsync(id:int) : Task<IActionResult>
+    + <<async>> GetTimeSlotsBySpecificationsAsync(criteriaRequestDto:AvailableTimeSlotsByCriteriaRequestDto) : Task<IActionResult>
+    + <<async>> GetAllTimeSlotsAsync() : Task<IActionResult>
     + <<async>> GetTimeSlotByIdAsync(id:int) : Task<IActionResult>
     + <<async>> CreateNewTimeSlotAsync(createTimeSlotDto:CreateTimeSlotDto) : Task<IActionResult>
     + <<async>> UpdateTimeSlotAsync(updateTimeSlotDto:UpdateTimeSlotDto) : Task<IActionResult>
@@ -129,6 +334,24 @@ class TimeSlotsController {
 }
 ControllerBase <|-- TimeSlotsController
 TimeSlotsController --> "_timeSlotService" ITimeSlotService
+class ExceptionHandlerMiddleware {
+    + ExceptionHandlerMiddleware(next:RequestDelegate, logger:ILogger<ExceptionHandlerMiddleware>)
+    + <<async>> InvokeAsync(context:HttpContext) : Task
+    - {static} <<async>> HandleExceptionAsync(context:HttpContext, exception:Exception) : Task
+}
+class "ILogger`1"<T> {
+}
+ExceptionHandlerMiddleware --> "_next" RequestDelegate
+ExceptionHandlerMiddleware --> "_logger<ExceptionHandlerMiddleware>" "ILogger`1"
+class DoctorsControllerTests {
+    + <<async>> GetAllDoctorsAsync_ReturnArrayOfDoctors() : Task
+    + <<async>> GetDoctorByIdAsync_ReturnDoctor() : Task
+    + <<async>> CreateNewDoctorAsync_ReturnCreatedDoctor() : Task
+}
+class "Mock`1"<T> {
+}
+DoctorsControllerTests o-> "_doctorServiceMock<IDoctorsService>" "Mock`1"
+DoctorsControllerTests o-> "_doctorsController" DoctorsController
 interface IDoctorsRepository {
 }
 class "IGenericRepository`1"<T> {
@@ -152,6 +375,7 @@ class "IGenericRepository`1"<T> {
 }
 "IGenericRepository`1" "<Record>" <|-- IRecordsRepository
 interface ITimeSlotsRepository {
+    GetAvailableTimeSlotsByPredicateAsync(predicateBuilder:ExpressionStarter<TimeSlot>) : Task<IEnumerable<TimeSlot>>
 }
 class "IGenericRepository`1"<T> {
 }
@@ -160,6 +384,7 @@ interface IDoctorsService {
     GetAllDoctorsAsync() : Task<IEnumerable<GetDoctorDto>>
     GetDoctorByIdAsync(id:int) : Task<GetDoctorDto>
     AddNewDoctorAsync(createDoctorDto:CreateDoctorDto) : Task<GetDoctorDto>
+    AssociateWithTimeSlot(doctorId:int, timeSlotId:int) : Task<GetDoctorDto>
     UpdateDoctorAsync(updateDoctorDto:UpdateDoctorDto) : Task<GetDoctorDto>
     DeleteDoctorAsync(id:int) : Task<GetDoctorDto>
 }
@@ -179,8 +404,7 @@ interface IRecordService {
     DeleteRecordAsync(id:int) : Task<GetRecordDto>
 }
 interface ITimeSlotService {
-    GetAllVacantTimeSlotsForSpecialityAsync(speciality:string) : Task<IEnumerable<GetTimeSlotDto>>
-    GetAllVacantTimeSlotsForDoctorAsync(doctorId:int) : Task<IEnumerable<GetTimeSlotDto>>
+    GetTimeSlotsBySpecificationsAsync(criteriaRequestDto:AvailableTimeSlotsByCriteriaRequestDto) : Task<IEnumerable<GetTimeSlotDto>>
     GetAllTimeSlotsAsync() : Task<IEnumerable<GetTimeSlotDto>>
     GetTimeSlotByIdAsync(id:int) : Task<GetTimeSlotDto>
     AddNewTimeSlotAsync(createTimeSlotDto:CreateTimeSlotDto) : Task<GetTimeSlotDto>

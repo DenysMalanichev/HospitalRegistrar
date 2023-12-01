@@ -1,0 +1,30 @@
+@startuml
+class RecordServiceTests {
+    + <<async>> AddAsync_ReturnAddedRecord() : Task
+    + <<async>> AddAsync_ThrowsException_IfWrongForeignKey(patient:Patient, doctor:Doctor, timeSlot:TimeSlot) : Task
+    + <<async>> GetAllAsync_ReturnIEnumerableOfRecords() : Task
+    + <<async>> GetPatientCardAsync_ReturnIEnumerableOfRecords() : Task
+    + <<async>> GetPatientCardAsync_ThrowsException_IfEntityDoesntExist() : Task
+    + <<async>> GetPatientCardAsync_ThrowsException_IfIdIsNegative() : Task
+    + <<async>> GetByIdAsync_ReturnRecord() : Task
+    + <<async>> GetByIdAsync_ThrowsException_IfIdIsNegative() : Task
+    + <<async>> UpdateAsync_ReturnUpdatedRecord() : Task
+    + <<async>> UpdateAsync_ThrowsException_IfEntityDoesntExist() : Task
+    + <<async>> DeleteAsync_ReturnUpdatedRecord() : Task
+}
+class RecordNullKeysTestData {
+    + GetEnumerator() : IEnumerator<object[]>
+    - GetEnumerator() : IEnumerator
+}
+class "Mock`1"<T> {
+}
+class "IEnumerable`1"<T> {
+}
+RecordServiceTests o-> "_mapperMock<IMapper>" "Mock`1"
+RecordServiceTests o-> "_patientRepositoryMock<IPatientRepository>" "Mock`1"
+RecordServiceTests o-> "_recordRepositoryMock<IRecordsRepository>" "Mock`1"
+RecordServiceTests o-> "_doctorRepositoryMock<IDoctorsRepository>" "Mock`1"
+RecordServiceTests o-> "_timeSlotRepositoryMock<ITimeSlotsRepository>" "Mock`1"
+RecordServiceTests o-> "_recordService" RecordService
+"IEnumerable`1" "<object[]>" <|-- RecordNullKeysTestData
+@enduml

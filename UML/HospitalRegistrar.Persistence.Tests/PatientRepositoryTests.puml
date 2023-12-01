@@ -1,0 +1,16 @@
+@startuml
+class PatientRepositoryTests {
+    + PatientRepositoryTests()
+    + <<async>> GetByIdAsync_ReturnCorrespondingEntity_IfExists() : Task
+    + <<async>> GetByIdAsync_ReturnNull_IfEntityDoesntExists() : Task
+    + <<async>> GetAllAsync_ReturnEnumerable_IfEntitiesExists() : Task
+    + <<async>> GetAllAsync_ReturnEmptyEnumerable_IfEntitiesDontExist() : Task
+    + <<async>> AddAsync_ReturnAddedPatient() : Task
+    + <<async>> UpdateAsync_ReturnsUpdatedPatient() : Task
+    + <<async>> DeleteAsync_ReturnDeletedPatient_IfExists() : Task
+    + <<async>> DeleteAsync_ReturnNull_IfEntityDoesntExist() : Task
+    - {static} CreateNewContextOptions() : DbContextOptions<DataContext>
+}
+PatientRepositoryTests --> "_patientRepository" IPatientRepository
+PatientRepositoryTests --> "_dataContext" DataContext
+@enduml

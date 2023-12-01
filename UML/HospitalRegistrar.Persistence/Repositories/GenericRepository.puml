@@ -1,0 +1,19 @@
+@startuml
+class "GenericRepository`1"<T> {
+    # GenericRepository(context:DataContext)
+    + <<async>> GetByIdAsync(id:int) : Task<T>?
+    + <<async>> GetAllAsync() : Task<IEnumerable<T>>
+    + <<async>> AddAsync(entity:T) : Task<T>
+    + <<async>> UpdateAsync(id:int, entity:T) : Task<T>
+    + <<async>> DeleteAsync(id:int) : Task<T>?
+    + <<async>> Dispose() : void
+}
+class "IGenericRepository`1"<T> {
+}
+class "DbSet`1"<T> {
+}
+"IGenericRepository`1" "<T>" <|-- "GenericRepository`1"
+IDisposable <|-- "GenericRepository`1"
+"GenericRepository`1" --> "_context" DataContext
+"GenericRepository`1" --> "_table<T>" "DbSet`1"
+@enduml

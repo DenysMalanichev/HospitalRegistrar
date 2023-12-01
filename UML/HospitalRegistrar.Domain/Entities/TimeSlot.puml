@@ -1,6 +1,5 @@
 @startuml
 class TimeSlot {
-    + IsVacant : bool <<get>> <<set>>
 }
 class "List`1"<T> {
 }
@@ -8,5 +7,5 @@ BaseEntity <|-- TimeSlot
 TimeSlot --> "TimeBegin" DateTime
 TimeSlot --> "TimeEnd" DateTime
 TimeSlot o-> "Doctors<Doctor>" "List`1"
-TimeSlot o-> "Record" Record
+TimeSlot o-> "Records<Record>" "List`1"
 @enduml

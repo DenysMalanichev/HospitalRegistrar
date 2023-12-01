@@ -1,0 +1,13 @@
+@startuml
+class DataContext {
+    + DataContext(options:DbContextOptions<DataContext>)
+    # <<override>> OnModelCreating(modelBuilder:ModelBuilder) : void
+}
+class "DbSet`1"<T> {
+}
+DbContext <|-- DataContext
+DataContext --> "Doctors<Doctor>" "DbSet`1"
+DataContext --> "Patients<Patient>" "DbSet`1"
+DataContext --> "Records<Record>" "DbSet`1"
+DataContext --> "TimeSlots<TimeSlot>" "DbSet`1"
+@enduml

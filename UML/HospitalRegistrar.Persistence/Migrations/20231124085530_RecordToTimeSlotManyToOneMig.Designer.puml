@@ -1,0 +1,5 @@
+@startuml
+class RecordToTimeSlotManyToOneMig <<partial>> {
+    # <<override>> BuildTargetModel(modelBuilder:ModelBuilder) : void
+}
+@enduml

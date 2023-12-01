@@ -1,0 +1,8 @@
+@startuml
+class EntityNotFoundException {
+    + EntityNotFoundException()
+    + EntityNotFoundException(message:string)
+    + EntityNotFoundException(message:string, innerException:Exception)
+}
+Exception <|-- EntityNotFoundException
+@enduml
