@@ -10,3 +10,6 @@ D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\o
 D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\obj\Debug\net7.0\refint\HospitalRegistrar.Features.dll
 D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\obj\Debug\net7.0\HospitalRegistrar.Features.pdb
 D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\obj\Debug\net7.0\ref\HospitalRegistrar.Features.dll
+D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\bin\Debug\net7.0\HospitalRegistrar.Domain.dll
+D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\bin\Debug\net7.0\HospitalRegistrar.Domain.pdb
+D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Features\obj\Debug\net7.0\HospitalRegistrar.Features.csproj.CopyComplete

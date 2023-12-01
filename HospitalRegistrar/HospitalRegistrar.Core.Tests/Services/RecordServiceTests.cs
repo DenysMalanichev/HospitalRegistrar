@@ -253,6 +253,38 @@ public class RecordServiceTests
     }
     
     [Fact]
+    public async Task GetPatientCardAsync_ThrowsException_IfEntityDoesntExist()
+    {
+        // Arrange
+        const int patientId = 2;
+
+        _patientRepositoryMock.Setup(repo => repo.GetByIdAsync(patientId)!)
+            .ReturnsAsync((Patient)null!);
+
+        _recordService = new RecordService(_recordRepositoryMock.Object, _patientRepositoryMock.Object,
+            _doctorRepositoryMock.Object, _timeSlotRepositoryMock.Object , _mapperMock.Object );
+
+        // Act
+        await Assert.ThrowsAsync<EntityNotFoundException>(async () => await _recordService.GetPatientCardAsync(patientId));
+    }
+    
+    [Fact]
+    public async Task GetPatientCardAsync_ThrowsException_IfIdIsNegative()
+    {
+        // Arrange
+        const int patientId = -2;
+
+        _patientRepositoryMock.Setup(repo => repo.GetByIdAsync(patientId)!)
+            .ReturnsAsync((Patient)null!);
+
+        _recordService = new RecordService(_recordRepositoryMock.Object, _patientRepositoryMock.Object,
+            _doctorRepositoryMock.Object, _timeSlotRepositoryMock.Object , _mapperMock.Object );
+
+        // Act
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await _recordService.GetPatientCardAsync(patientId));
+    }
+    
+    [Fact]
     public async Task GetByIdAsync_ReturnRecord()
     {
         // Arrange
@@ -290,6 +322,19 @@ public class RecordServiceTests
         Assert.IsType<GetRecordDto>(returnedPatientDto);
         Assert.Equal(record.Diagnosis, returnedPatientDto.Diagnosis);
         Assert.Equal(record.Id, returnedPatientDto.Id);
+    }
+    
+    [Fact]
+    public async Task GetByIdAsync_ThrowsException_IfIdIsNegative()
+    {
+        // Arrange
+        const int id = -1;
+
+        _recordService = new RecordService(_recordRepositoryMock.Object, _patientRepositoryMock.Object,
+            _doctorRepositoryMock.Object, _timeSlotRepositoryMock.Object , _mapperMock.Object );
+
+        // Act & Assert
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await _recordService.GetRecordByIdAsync(id));
     }
     
     [Fact]
@@ -347,6 +392,46 @@ public class RecordServiceTests
         Assert.NotNull(returnedPatientDto);
         Assert.Equal(updateRecordDto.Diagnosis, returnedPatientDto.Diagnosis);
         Assert.Equal(updateRecordDto.Id, returnedPatientDto.Id);
+    }
+    
+    [Fact]
+    public async Task UpdateAsync_ThrowsException_IfEntityDoesntExist()
+    {
+        // Arrange
+        const int id = 1;
+        var updateRecordDto = new UpdateRecordDto 
+        {
+            Id = 1,
+            Diagnosis = "diag2",
+            DoctorId = 1,
+            PatientId = 2,
+            TimeSlotId = 1
+        };
+        var record = new Record
+        {
+            Id = 1,
+            Diagnosis = "diag",
+            DoctorId = 1,
+            PatientId = 2,
+            TimeSlotId = 1
+        };
+        var patientDto = new GetRecordDto
+        {
+            Id = 1,
+            Diagnosis = "diag2",
+            DoctorId = 1,
+            PatientId = 2,
+            TimeSlotId = 1
+        };
+
+        _recordRepositoryMock.Setup(repo => repo.GetByIdAsync(id)!)
+            .ReturnsAsync((Record)null!);
+
+        _recordService = new RecordService(_recordRepositoryMock.Object, _patientRepositoryMock.Object,
+            _doctorRepositoryMock.Object, _timeSlotRepositoryMock.Object , _mapperMock.Object );
+
+        // Act & Assert
+        await Assert.ThrowsAsync<EntityNotFoundException>(async () => await _recordService.UpdateRecordAsync(updateRecordDto));
     }
     
     [Fact]

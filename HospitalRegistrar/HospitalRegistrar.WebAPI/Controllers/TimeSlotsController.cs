@@ -1,5 +1,6 @@
 using HospitalRegistrar.Application.Interfaces.Services;
 using HospitalRegistrar.Features.TimeSlotFeatures;
+using HospitalRegistrar.Features.TimeSlotFeatures.Specification;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalRegistrar.Controllers;
@@ -13,52 +14,57 @@ public class TimeSlotsController : ControllerBase
     {
         _timeSlotService = timeSlotService;
     }
+    
+    [HttpGet]
+    [Route("available")]
+    public async Task<IActionResult> GetTimeSlotsBySpecificationsAsync([FromQuery] AvailableTimeSlotsByCriteriaRequestDto criteriaRequestDto)
+    {
+        var timeSlots = await _timeSlotService.GetTimeSlotsBySpecificationsAsync(criteriaRequestDto);
 
-    [HttpGet]
-    [Route("by-speciality/{speciality}")]
-    public async Task<IActionResult> GetTimeSlotsByDoctorsSpecialityAsync(string speciality)
-    {
-        throw new NotImplementedException();
+        return Ok(timeSlots);
     }
     
     [HttpGet]
-    [Route("by-doctor/{doctorId:int}")]
-    public async Task<IActionResult> GetTimeSlotsByDoctorAsync(int doctorId)
+    public async Task<IActionResult> GetAllTimeSlotsAsync()
     {
-        throw new NotImplementedException();
-    }
-    
-    [HttpGet]
-    public async Task<IActionResult> GetAllTimeSlotsAsync(int id)
-    {
-        throw new NotImplementedException();
+        var timeSlots = await _timeSlotService.GetAllTimeSlotsAsync();
+
+        return Ok(timeSlots);
     }
     
     [HttpGet]
     [Route("{id:int}")]
     public async Task<IActionResult> GetTimeSlotByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var timeSlot = await _timeSlotService.GetTimeSlotByIdAsync(id);
+
+        return Ok(timeSlot);
     }
     
     [HttpPost]
     [Route("new")]
-    public async Task<IActionResult> CreateNewTimeSlotAsync(CreateTimeSlotDto createTimeSlotDto)
+    public async Task<IActionResult> CreateNewTimeSlotAsync([FromBody] CreateTimeSlotDto createTimeSlotDto)
     {
-        throw new NotImplementedException();
+        var timeSlot = await _timeSlotService.AddNewTimeSlotAsync(createTimeSlotDto);
+
+        return Ok(timeSlot);
     }
     
     [HttpPut]
     [Route("update")]
-    public async Task<IActionResult> UpdateTimeSlotAsync(UpdateTimeSlotDto updateTimeSlotDto)
+    public async Task<IActionResult> UpdateTimeSlotAsync([FromBody] UpdateTimeSlotDto updateTimeSlotDto)
     {
-        throw new NotImplementedException();
+        var timeSlot = await _timeSlotService.UpdateTimeSlotAsync(updateTimeSlotDto);
+
+        return Ok(timeSlot);
     }
     
     [HttpDelete]
     [Route("delete")]
     public async Task<IActionResult> DeleteTimeSlotAsync(int id)
     {
-        throw new NotImplementedException();
+        var timeSlots = await _timeSlotService.DeleteTimeSlotAsync(id);
+
+        return Ok(timeSlots);
     }
 }

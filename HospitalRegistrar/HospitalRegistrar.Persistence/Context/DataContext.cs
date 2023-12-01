@@ -20,5 +20,8 @@ public class DataContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Doctor>()
+            .Navigation(od => od.TimeSlots)
+            .AutoInclude();
     }
 }

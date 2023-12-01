@@ -7,14 +7,27 @@
   "targets": {
     ".NETCoreApp,Version=v7.0": {
       "HospitalRegistrar.Features/1.0.0": {
+        "dependencies": {
+          "HospitalRegistrar.Domain": "1.0.0"
+        },
         "runtime": {
           "HospitalRegistrar.Features.dll": {}
+        }
+      },
+      "HospitalRegistrar.Domain/1.0.0": {
+        "runtime": {
+          "HospitalRegistrar.Domain.dll": {}
         }
       }
     }
   },
   "libraries": {
     "HospitalRegistrar.Features/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "HospitalRegistrar.Domain/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

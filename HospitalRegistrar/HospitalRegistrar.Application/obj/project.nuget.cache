@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "eYVJMNdy87yL9pcDk0zx1ieulNGeyOWCTQUWNV5pX/VGh4y8Lsx7C6MR5cNklFihSsk8Hbfx+/JlCCiSTHYt1g==",
+  "dgSpecHash": "yQrKnwlYZbYzW+pl8A32uR9utaaaY7MwrJd/EHTpLzzyBwTUx4YnDKuVSWp96vbIWvuxcJ1D1e6AvLSiu4wjsg==",
   "success": true,
   "projectFilePath": "D:\\prog\\KPI.NET\\HospitalRegistrar\\HospitalRegistrar\\HospitalRegistrar.Application\\HospitalRegistrar.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\user\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\linqkit.core\\1.2.5\\linqkit.core.1.2.5.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512"
   ],

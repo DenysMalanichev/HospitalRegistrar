@@ -105,8 +105,7 @@ namespace HospitalRegistrar.Persistence.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.HasIndex("TimeSlotId")
-                        .IsUnique();
+                    b.HasIndex("TimeSlotId");
 
                     b.ToTable("Records");
                 });
@@ -118,9 +117,6 @@ namespace HospitalRegistrar.Persistence.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsVacant")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime>("TimeBegin")
                         .HasColumnType("datetime2");
@@ -151,7 +147,7 @@ namespace HospitalRegistrar.Persistence.Migrations
             modelBuilder.Entity("HospitalRegistrar.Domain.Entities.Record", b =>
                 {
                     b.HasOne("HospitalRegistrar.Domain.Entities.Doctor", "Doctor")
-                        .WithMany()
+                        .WithMany("Records")
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -163,8 +159,8 @@ namespace HospitalRegistrar.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("HospitalRegistrar.Domain.Entities.TimeSlot", "TimeSlot")
-                        .WithOne("Record")
-                        .HasForeignKey("HospitalRegistrar.Domain.Entities.Record", "TimeSlotId")
+                        .WithMany("Records")
+                        .HasForeignKey("TimeSlotId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -175,6 +171,11 @@ namespace HospitalRegistrar.Persistence.Migrations
                     b.Navigation("TimeSlot");
                 });
 
+            modelBuilder.Entity("HospitalRegistrar.Domain.Entities.Doctor", b =>
+                {
+                    b.Navigation("Records");
+                });
+
             modelBuilder.Entity("HospitalRegistrar.Domain.Entities.Patient", b =>
                 {
                     b.Navigation("Records");
@@ -182,8 +183,7 @@ namespace HospitalRegistrar.Persistence.Migrations
 
             modelBuilder.Entity("HospitalRegistrar.Domain.Entities.TimeSlot", b =>
                 {
-                    b.Navigation("Record")
-                        .IsRequired();
+                    b.Navigation("Records");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,6 +1,11 @@
+using AutoMapper;
+using HospitalRegistrar.Application.Exceptions;
 using HospitalRegistrar.Application.Interfaces.Repositories;
 using HospitalRegistrar.Application.Interfaces.Services;
+using HospitalRegistrar.Domain.Entities;
 using HospitalRegistrar.Features.TimeSlotFeatures;
+using HospitalRegistrar.Features.TimeSlotFeatures.Specification;
+using LinqKit;
 
 namespace HospitalRegistrar.Application.Services;
 
@@ -9,46 +14,101 @@ public class TimeSlotService : ITimeSlotService
     private readonly IPatientService _patientService;
     private readonly ITimeSlotsRepository _timeSlotsRepository;
     private readonly IDoctorsService _doctorsService;
+    private readonly IMapper _mapper;
 
-    public TimeSlotService(IPatientService patientService, ITimeSlotsRepository timeSlotsRepository, IDoctorsService doctorsService)
+    public TimeSlotService(
+        IPatientService patientService,
+        ITimeSlotsRepository timeSlotsRepository,
+        IDoctorsService doctorsService,
+        IMapper mapper
+        )
     {
         _patientService = patientService;
         _timeSlotsRepository = timeSlotsRepository;
         _doctorsService = doctorsService;
+        _mapper = mapper;
     }
 
-    public Task<IEnumerable<GetTimeSlotDto>> GetAllVacantTimeSlotsForSpecialityAsync(string speciality)
+    public async Task<IEnumerable<GetTimeSlotDto>> GetTimeSlotsBySpecificationsAsync(AvailableTimeSlotsByCriteriaRequestDto criteriaRequestDto)
     {
-        throw new NotImplementedException();
+        DoctorSpecialtySpecification specialtySpec = null!;
+        DoctorNameSpecification nameSpec = null!;
+        TimeSlotDateSpecification dateSpec = null!;
+        
+        if (!string.IsNullOrEmpty(criteriaRequestDto.Specialty))
+        {
+            specialtySpec = new DoctorSpecialtySpecification(criteriaRequestDto.Specialty);
+        }
+
+        if (!string.IsNullOrEmpty(criteriaRequestDto.DoctorName))
+        {
+            nameSpec = new DoctorNameSpecification(criteriaRequestDto.DoctorName);
+        }
+
+        if (criteriaRequestDto.Date.HasValue)
+        {
+            dateSpec = new TimeSlotDateSpecification(criteriaRequestDto.Date.Value);
+        }
+
+        var predicate = PredicateBuilder.New<TimeSlot>(false);
+        
+        if (specialtySpec != null)
+            predicate = predicate.And(specialtySpec.Criteria);
+
+        if (nameSpec != null)
+            predicate = predicate.And(nameSpec.Criteria);
+
+        if (dateSpec != null)
+            predicate = predicate.And(dateSpec.Criteria);
+
+        var timeSlots = await _timeSlotsRepository.GetAvailableTimeSlotsByPredicateAsync(predicate);
+
+        return _mapper.Map<IEnumerable<GetTimeSlotDto>>(timeSlots);
     }
 
-    public Task<IEnumerable<GetTimeSlotDto>> GetAllVacantTimeSlotsForDoctorAsync(int doctorId)
+    public async Task<IEnumerable<GetTimeSlotDto>> GetAllTimeSlotsAsync()
     {
-        throw new NotImplementedException();
+        var timeSlots = await _timeSlotsRepository.GetAllAsync();
+
+        return _mapper.Map<IEnumerable<GetTimeSlotDto>>(timeSlots);
     }
 
-    public Task<IEnumerable<GetTimeSlotDto>> GetAllTimeSlotsAsync()
+    public async Task<GetTimeSlotDto> GetTimeSlotByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var timeSlot = await _timeSlotsRepository.GetByIdAsync(id)!
+            ?? throw new EntityNotFoundException($"No Time Slot with Id '{id}'");
+
+        return _mapper.Map<GetTimeSlotDto>(timeSlot);
     }
 
-    public Task<GetTimeSlotDto> GetTimeSlotByIdAsync(int id)
+    public async Task<GetTimeSlotDto> AddNewTimeSlotAsync(CreateTimeSlotDto createTimeSlotDto)
     {
-        throw new NotImplementedException();
+        var record = _mapper.Map<TimeSlot>(createTimeSlotDto);
+
+        var createdRecord = await _timeSlotsRepository.AddAsync(record);
+
+        return _mapper.Map<GetTimeSlotDto>(createdRecord);
     }
 
-    public Task<GetTimeSlotDto> AddNewTimeSlotAsync(CreateTimeSlotDto createTimeSlotDto)
+    public async Task<GetTimeSlotDto> UpdateTimeSlotAsync(UpdateTimeSlotDto updateTimeSlotDto)
     {
-        throw new NotImplementedException();
+        if (await _timeSlotsRepository.GetByIdAsync(updateTimeSlotDto.Id)! is null)
+        {
+            throw new EntityNotFoundException($"No Time Slot with Id '{updateTimeSlotDto.Id}'");
+        }
+
+        var recordToUpdate = _mapper.Map<TimeSlot>(updateTimeSlotDto);
+
+        var updatedRecord = await _timeSlotsRepository.UpdateAsync(updateTimeSlotDto.Id, recordToUpdate);
+        
+        return _mapper.Map<GetTimeSlotDto>(updatedRecord);
     }
 
-    public Task<GetTimeSlotDto> UpdateTimeSlotAsync(UpdateTimeSlotDto updateTimeSlotDto)
+    public async Task<GetTimeSlotDto> DeleteTimeSlotAsync(int id)
     {
-        throw new NotImplementedException();
-    }
+        var deletedRecord = await _timeSlotsRepository.DeleteAsync(id)!
+                            ?? throw new EntityNotFoundException($"No Record with Id '{id}'");
 
-    public Task<GetTimeSlotDto> DeleteTimeSlotAsync(int id)
-    {
-        throw new NotImplementedException();
+        return _mapper.Map<GetTimeSlotDto>(deletedRecord);
     }
 }

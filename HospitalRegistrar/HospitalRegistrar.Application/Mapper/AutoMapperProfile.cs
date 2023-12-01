@@ -3,6 +3,7 @@ using HospitalRegistrar.Domain.Entities;
 using HospitalRegistrar.Features.DoctorFeatures;
 using HospitalRegistrar.Features.PatientFeatures;
 using HospitalRegistrar.Features.RecordFeatures;
+using HospitalRegistrar.Features.TimeSlotFeatures;
 
 namespace HospitalRegistrar.Application.Mapper;
 
@@ -21,5 +22,9 @@ public class AutoMapperProfile : Profile
         CreateMap<CreateRecordDto, Record>().ReverseMap();
         CreateMap<GetRecordDto, Record>().ReverseMap();
         CreateMap<UpdateRecordDto, Record>().ReverseMap();
+        
+        CreateMap<CreateTimeSlotDto, TimeSlot>().ReverseMap();
+        CreateMap<GetTimeSlotDto, TimeSlot>().ReverseMap();
+        CreateMap<UpdateTimeSlotDto, TimeSlot>().ReverseMap();
     }
 }

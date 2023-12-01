@@ -9,6 +9,8 @@ public interface IDoctorsService
     Task<GetDoctorDto> GetDoctorByIdAsync(int id);
     
     Task<GetDoctorDto> AddNewDoctorAsync(CreateDoctorDto createDoctorDto);
+
+    Task<GetDoctorDto> AssociateWithTimeSlot(int doctorId, int timeSlotId);
     
     Task<GetDoctorDto> UpdateDoctorAsync(UpdateDoctorDto updateDoctorDto);
 

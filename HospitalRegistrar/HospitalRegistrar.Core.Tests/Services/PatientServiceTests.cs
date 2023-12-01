@@ -1,4 +1,5 @@
 using AutoMapper;
+using HospitalRegistrar.Application.Exceptions;
 using HospitalRegistrar.Application.Interfaces.Repositories;
 using HospitalRegistrar.Application.Services;
 using HospitalRegistrar.Domain.Entities;
@@ -96,6 +97,36 @@ public class PatientServiceTests
     }
     
     [Fact]
+    public async Task GetByIdAsync_ThrowsException_IfEntityDoesntExist()
+    {
+        // Arrange
+        const int id = 1;
+
+        _patientRepositoryMock.Setup(repo => repo.GetByIdAsync(id)!)
+            .ReturnsAsync((Patient)null!);
+
+        _patientService = new PatientService(_patientRepositoryMock.Object, _mapperMock.Object );
+
+        // Act & Assert
+        await Assert.ThrowsAsync<EntityNotFoundException>(async () => await _patientService.GetPatientByIdAsync(id));
+    }
+    
+    [Fact]
+    public async Task GetByIdAsync_ThrowsException_IfIdIsNegative()
+    {
+        // Arrange
+        const int id = -1;
+
+        _patientRepositoryMock.Setup(repo => repo.GetByIdAsync(id)!)
+            .ReturnsAsync((Patient)null!);
+
+        _patientService = new PatientService(_patientRepositoryMock.Object, _mapperMock.Object );
+
+        // Act & Assert
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await _patientService.GetPatientByIdAsync(id));
+    }
+    
+    [Fact]
     public async Task UpdateAsync_ReturnUpdatedPatient()
     {
         // Arrange
@@ -122,6 +153,22 @@ public class PatientServiceTests
         Assert.NotNull(returnedPatientDto);
         Assert.Equal(updatePatientDto.Name, returnedPatientDto.Name);
         Assert.Equal(updatePatientDto.Id, returnedPatientDto.Id);
+    }
+    
+    [Fact]
+    public async Task UpdateAsync_ThrowsException_IfEntityDoesntExist()
+    {
+        // Arrange
+        const int id = 1;
+        var updatePatientDto = new UpdatePatientDto {  Id = id, Name = "New Name", Age = 21 };
+
+        _patientRepositoryMock.Setup(repo => repo.GetByIdAsync(id)!)
+            .ReturnsAsync((Patient)null!);
+
+        _patientService = new PatientService(_patientRepositoryMock.Object, _mapperMock.Object );
+
+        // Act & Assert
+        await Assert.ThrowsAsync<EntityNotFoundException>(async () => await _patientService.UpdatePatientAsync(updatePatientDto));
     }
     
     [Fact]

@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    "net7.0": {}
+    "net7.0": {
+      "HospitalRegistrar.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/HospitalRegistrar.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/HospitalRegistrar.Domain.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "HospitalRegistrar.Domain/1.0.0": {
+      "type": "project",
+      "path": "../HospitalRegistrar.Domain/HospitalRegistrar.Domain.csproj",
+      "msbuildProject": "../HospitalRegistrar.Domain/HospitalRegistrar.Domain.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net7.0": []
+    "net7.0": [
+      "HospitalRegistrar.Domain >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\user\\.nuget\\packages\\": {},
@@ -38,7 +57,11 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\prog\\KPI.NET\\HospitalRegistrar\\HospitalRegistrar\\HospitalRegistrar.Domain\\HospitalRegistrar.Domain.csproj": {
+              "projectPath": "D:\\prog\\KPI.NET\\HospitalRegistrar\\HospitalRegistrar\\HospitalRegistrar.Domain\\HospitalRegistrar.Domain.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

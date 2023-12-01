@@ -39,7 +39,16 @@ public class DoctorsController : ControllerBase
 
         return Ok(createdDoctor);
     }
-    
+
+    [HttpPost]
+    [Route("add-timeslot/{doctorId:int}/{timeSlotId:int}")]
+    public async Task<IActionResult> AssociateDoctorAndTimeSlot(int doctorId, int timeSlotId)
+    {
+        var doctorWithTimeSlot = await _doctorsService.AssociateWithTimeSlot(doctorId, timeSlotId);
+        
+        return Ok(doctorWithTimeSlot);
+    }
+
     [HttpPut]
     [Route("update")]
     public async Task<IActionResult> UpdateDoctorAsync([FromBody] UpdateDoctorDto updateDoctorDto)

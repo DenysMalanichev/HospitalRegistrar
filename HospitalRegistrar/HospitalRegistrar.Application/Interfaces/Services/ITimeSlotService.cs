@@ -1,12 +1,11 @@
 using HospitalRegistrar.Features.TimeSlotFeatures;
+using HospitalRegistrar.Features.TimeSlotFeatures.Specification;
 
 namespace HospitalRegistrar.Application.Interfaces.Services;
 
 public interface ITimeSlotService
 {
-    Task<IEnumerable<GetTimeSlotDto>> GetAllVacantTimeSlotsForSpecialityAsync(string speciality);
-    
-    Task<IEnumerable<GetTimeSlotDto>> GetAllVacantTimeSlotsForDoctorAsync(int doctorId);
+    Task<IEnumerable<GetTimeSlotDto>> GetTimeSlotsBySpecificationsAsync(AvailableTimeSlotsByCriteriaRequestDto criteriaRequestDto);
 
     Task<IEnumerable<GetTimeSlotDto>> GetAllTimeSlotsAsync();
     

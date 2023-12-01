@@ -10,12 +10,14 @@ namespace HospitalRegistrar.Application.Services;
 public class DoctorsService : IDoctorsService
 {
     private readonly IDoctorsRepository _doctorsRepository;
+    private readonly ITimeSlotsRepository _timeSlotsRepository;
     private readonly IMapper _mapper;
 
-    public DoctorsService(IDoctorsRepository doctorsRepository, IMapper mapper)
+    public DoctorsService(IDoctorsRepository doctorsRepository, IMapper mapper, ITimeSlotsRepository timeSlotsRepository)
     {
         _doctorsRepository = doctorsRepository;
         _mapper = mapper;
+        _timeSlotsRepository = timeSlotsRepository;
     }
 
     public async Task<IEnumerable<GetDoctorDto>> GetAllDoctorsAsync()
@@ -45,6 +47,21 @@ public class DoctorsService : IDoctorsService
         var createdDoctor = await _doctorsRepository.AddAsync(doctor);
 
         return _mapper.Map<GetDoctorDto>(createdDoctor);
+    }
+
+    public async Task<GetDoctorDto> AssociateWithTimeSlot(int doctorId, int timeSlotId)
+    {
+        var doctor = await _doctorsRepository.GetByIdAsync(doctorId)!
+                     ?? throw new EntityNotFoundException($"No Doctor with Id '{doctorId}'");
+        
+        var timeSlot = await _timeSlotsRepository.GetByIdAsync(timeSlotId)!
+                     ?? throw new EntityNotFoundException($"No Time Slot with Id '{timeSlotId}'");
+        
+        doctor.TimeSlots.Add(timeSlot);
+
+        var updatedDoctor = await _doctorsRepository.UpdateAsync(doctorId, doctor);
+        
+        return _mapper.Map<GetDoctorDto>(updatedDoctor);
     }
 
     public async Task<GetDoctorDto> UpdateDoctorAsync(UpdateDoctorDto updateDoctorDto)
