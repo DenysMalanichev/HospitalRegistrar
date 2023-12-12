@@ -1,3 +1,4 @@
+using HospitalRegistrar.Features.Common;
 using HospitalRegistrar.Features.TimeSlotFeatures;
 using HospitalRegistrar.Features.TimeSlotFeatures.Specification;
 
@@ -5,7 +6,7 @@ namespace HospitalRegistrar.Application.Interfaces.Services;
 
 public interface ITimeSlotService
 {
-    Task<IEnumerable<GetTimeSlotDto>> GetTimeSlotsBySpecificationsAsync(AvailableTimeSlotsByCriteriaRequestDto criteriaRequestDto);
+    Task<GenericPagingDto<GetTimeSlotDto>> GetTimeSlotsBySpecificationsAsync(AvailablePagedTimeSlotsByCriteriaRequestDto criteriaRequestDto);
 
     Task<IEnumerable<GetTimeSlotDto>> GetAllTimeSlotsAsync();
     

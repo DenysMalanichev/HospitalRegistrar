@@ -13,5 +13,5 @@ public class DoctorNameSpecification : ISpecification<TimeSlot>
     }
     
     public Expression<Func<TimeSlot, bool>> Criteria =>
-        timeSlot => timeSlot.Doctors.Any(d => d.Name == _name);
+        timeSlot => timeSlot.Doctors.Any(d => d.User.UserName == _name);
 }

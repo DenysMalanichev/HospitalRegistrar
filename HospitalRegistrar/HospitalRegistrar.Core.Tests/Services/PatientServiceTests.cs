@@ -19,7 +19,7 @@ public class PatientServiceTests
     {
         // Arrange
         var createPatientDto = new CreatePatientDto { Name = "Name", Age = 20 };
-        var patient = new Patient { Id = 1, Name = "Name", Age = 20 };
+        var patient = new Patient { Id = 1, Age = 20 };
         var getDoctorDto = new GetPatientDto { Id = 1, Name = "Name", Age = 20 };
 
         _patientRepositoryMock.Setup(repo => repo.AddAsync(patient))
@@ -45,8 +45,8 @@ public class PatientServiceTests
         // Arrange
         var patients = new List<Patient>
         {
-            new() { Id = 1, Name = "Name", Age = 20 },
-            new() { Id = 2, Name = "Name1", Age = 80 },
+            new() { Id = 1, Age = 20 },
+            new() { Id = 2, Age = 80 },
         };
         var patientDtos = new List<GetPatientDto>
         {
@@ -68,7 +68,6 @@ public class PatientServiceTests
         Assert.NotNull(returnedPatientsDtos);
         Assert.IsAssignableFrom<IEnumerable<GetPatientDto>>(returnedPatientsDtos);
         Assert.Equal(patients.Count, returnedPatientsDtos.Count);
-        Assert.Equal(patients[0].Name, returnedPatientsDtos[0].Name);
         Assert.Equal(patients[1].Age, returnedPatientsDtos[1].Age);
     }
     
@@ -77,7 +76,7 @@ public class PatientServiceTests
     {
         // Arrange
         const int id = 1;
-        var patient = new Patient {  Id = id, Name = "Name", Age = 20 };
+        var patient = new Patient {  Id = id, Age = 20 };
         var patientDto = new GetPatientDto { Id = id, Name = "Name", Age = 20 };
 
         _patientRepositoryMock.Setup(repo => repo.GetByIdAsync(id)!)
@@ -92,7 +91,6 @@ public class PatientServiceTests
 
         // Assert
         Assert.NotNull(returnedPatientDto);
-        Assert.Equal(patient.Name, returnedPatientDto.Name);
         Assert.Equal(patient.Id, returnedPatientDto.Id);
     }
     
@@ -132,7 +130,7 @@ public class PatientServiceTests
         // Arrange
         const int id = 1;
         var updatePatientDto = new UpdatePatientDto {  Id = id, Name = "New Name", Age = 21 };
-        var patient = new Patient {  Id = id, Name = "Name", Age = 20 };
+        var patient = new Patient {  Id = id, Age = 20 };
         var patientDto = new GetPatientDto { Id = id, Name = "New Name", Age = 21 };
 
         _patientRepositoryMock.Setup(repo => repo.UpdateAsync(id, patient))
@@ -176,7 +174,7 @@ public class PatientServiceTests
     {
         // Arrange
         const int id = 1;
-        var patient = new Patient {  Id = id, Name = "Name", Age = 20 };
+        var patient = new Patient {  Id = id, Age = 20 };
         var patientDto = new GetPatientDto { Id = id, Name = "Name", Age = 20 };
 
         _patientRepositoryMock.Setup(repo => repo.DeleteAsync(id)!)
@@ -193,7 +191,6 @@ public class PatientServiceTests
 
         // Assert
         Assert.NotNull(returnedDoctorDto);
-        Assert.Equal(patient.Name, returnedDoctorDto.Name);
         Assert.Equal(patientDto.Id, returnedDoctorDto.Id);
     }
 }

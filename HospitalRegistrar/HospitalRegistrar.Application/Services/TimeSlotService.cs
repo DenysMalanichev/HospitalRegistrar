@@ -3,67 +3,58 @@ using HospitalRegistrar.Application.Exceptions;
 using HospitalRegistrar.Application.Interfaces.Repositories;
 using HospitalRegistrar.Application.Interfaces.Services;
 using HospitalRegistrar.Domain.Entities;
+using HospitalRegistrar.Features.Common;
 using HospitalRegistrar.Features.TimeSlotFeatures;
 using HospitalRegistrar.Features.TimeSlotFeatures.Specification;
-using LinqKit;
 
 namespace HospitalRegistrar.Application.Services;
 
 public class TimeSlotService : ITimeSlotService
 {
-    private readonly IPatientService _patientService;
     private readonly ITimeSlotsRepository _timeSlotsRepository;
-    private readonly IDoctorsService _doctorsService;
+    private readonly IDataQueryingService<TimeSlot, GetTimeSlotDto> _dataQueryingService;
     private readonly IMapper _mapper;
 
     public TimeSlotService(
-        IPatientService patientService,
         ITimeSlotsRepository timeSlotsRepository,
-        IDoctorsService doctorsService,
-        IMapper mapper
-        )
+        IMapper mapper,
+        IDataQueryingService<TimeSlot, GetTimeSlotDto> dataQueryingService)
     {
-        _patientService = patientService;
         _timeSlotsRepository = timeSlotsRepository;
-        _doctorsService = doctorsService;
         _mapper = mapper;
+        _dataQueryingService = dataQueryingService;
     }
 
-    public async Task<IEnumerable<GetTimeSlotDto>> GetTimeSlotsBySpecificationsAsync(AvailableTimeSlotsByCriteriaRequestDto criteriaRequestDto)
+    public async Task<GenericPagingDto<GetTimeSlotDto>> GetTimeSlotsBySpecificationsAsync(AvailablePagedTimeSlotsByCriteriaRequestDto criteriaRequestDto)
     {
-        DoctorSpecialtySpecification specialtySpec = null!;
-        DoctorNameSpecification nameSpec = null!;
-        TimeSlotDateSpecification dateSpec = null!;
+        var specifications = new List<ISpecification<TimeSlot>>();
         
         if (!string.IsNullOrEmpty(criteriaRequestDto.Specialty))
         {
-            specialtySpec = new DoctorSpecialtySpecification(criteriaRequestDto.Specialty);
+            specifications.Add(new DoctorSpecialtySpecification(criteriaRequestDto.Specialty));
         }
 
         if (!string.IsNullOrEmpty(criteriaRequestDto.DoctorName))
         {
-            nameSpec = new DoctorNameSpecification(criteriaRequestDto.DoctorName);
+             specifications.Add(new DoctorNameSpecification(criteriaRequestDto.DoctorName));
         }
 
         if (criteriaRequestDto.Date.HasValue)
         {
-            dateSpec = new TimeSlotDateSpecification(criteriaRequestDto.Date.Value);
+            specifications.Add(new TimeSlotDateSpecification(criteriaRequestDto.Date.Value));
         }
 
-        var predicate = PredicateBuilder.New<TimeSlot>(false);
+        var pagingParams = new QueryPaginationCriteria<TimeSlot>
+        {
+            CurrentPage = criteriaRequestDto.CurrentPage ?? 1,
+            IsDescending = criteriaRequestDto.IsDescending,
+            ItemsOnPage = 10,
+            SortBy = timeSlot => timeSlot.TimeBegin,
+        };
         
-        if (specialtySpec != null)
-            predicate = predicate.And(specialtySpec.Criteria);
+        var timeSlots = await _dataQueryingService.GetPagedEntityByCriteriaAsync(pagingParams, specifications.ToArray());
 
-        if (nameSpec != null)
-            predicate = predicate.And(nameSpec.Criteria);
-
-        if (dateSpec != null)
-            predicate = predicate.And(dateSpec.Criteria);
-
-        var timeSlots = await _timeSlotsRepository.GetAvailableTimeSlotsByPredicateAsync(predicate);
-
-        return _mapper.Map<IEnumerable<GetTimeSlotDto>>(timeSlots);
+        return timeSlots;
     }
 
     public async Task<IEnumerable<GetTimeSlotDto>> GetAllTimeSlotsAsync()

@@ -17,7 +17,7 @@ public class TimeSlotsController : ControllerBase
     
     [HttpGet]
     [Route("available")]
-    public async Task<IActionResult> GetTimeSlotsBySpecificationsAsync([FromQuery] AvailableTimeSlotsByCriteriaRequestDto criteriaRequestDto)
+    public async Task<IActionResult> GetTimeSlotsBySpecificationsAsync([FromQuery] AvailablePagedTimeSlotsByCriteriaRequestDto criteriaRequestDto)
     {
         var timeSlots = await _timeSlotService.GetTimeSlotsBySpecificationsAsync(criteriaRequestDto);
 

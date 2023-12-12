@@ -23,7 +23,7 @@ public class PatientRepositoryTests
     {
         // Arrange
         const int id = 1;
-        var patient = new Patient { Id = id, Name = "Name" };
+        var patient = new Patient { Id = id };
 
         await _dataContext.Patients.AddAsync(patient);
         await _dataContext.SaveChangesAsync();
@@ -33,9 +33,7 @@ public class PatientRepositoryTests
 
         // Assert
         Assert.NotNull(foundPatient);
-
         Assert.Equal(id, foundPatient.Id);
-        Assert.Equal("Name", foundPatient.Name);
     }
 
     [Fact]
@@ -54,8 +52,8 @@ public class PatientRepositoryTests
         // Arrange
         var patients = new List<Patient>
         {
-            new() { Id = 1, Name = "P2" },
-            new() { Id = 2, Name = "PName" },
+            new() { Id = 1 },
+            new() { Id = 2 },
         };
 
         await _dataContext.AddRangeAsync(patients);
@@ -67,9 +65,6 @@ public class PatientRepositoryTests
         // Assert
         Assert.NotNull(foundPatients);
         Assert.Equal(patients.Count, foundPatients.Count);
-
-        Assert.Equal(foundPatients[0].Name, patients[0].Name);
-        Assert.Equal(foundPatients[0].Name, patients[0].Name);
     }
 
     [Fact]
@@ -88,7 +83,7 @@ public class PatientRepositoryTests
     public async Task AddAsync_ReturnAddedPatient()
     {
         // Arrange
-        var patient = new Patient { Name = "Name" };
+        var patient = new Patient { Age = 20 };
 
         // Act
         var addedPatient = await _patientRepository.AddAsync(patient);
@@ -99,17 +94,17 @@ public class PatientRepositoryTests
         // Assert
         Assert.NotNull(addedPatient);
         Assert.NotNull(genreFromDb);
-        Assert.Equal(genreFromDb.Name, addedPatient.Name);
+        Assert.Equal(genreFromDb.Age, addedPatient.Age);
     }
 
     [Fact]
     public async Task UpdateAsync_ReturnsUpdatedPatient()
     {
         // Arrange
-        var newPatient = new Patient { Name = "New Name" };
+        var newPatient = new Patient { Age = 20 };
 
         // Act
-        var patient = (await _dataContext.AddAsync(new Patient() { Name = "Name" })).Entity;
+        var patient = (await _dataContext.AddAsync(new Patient { Age = 21 })).Entity;
         await _dataContext.SaveChangesAsync();
 
         var updatedPatient = await _patientRepository.UpdateAsync(patient.Id, newPatient);
@@ -117,14 +112,14 @@ public class PatientRepositoryTests
 
         // Assert
         Assert.NotNull(updatedPatient);
-        Assert.Equal(updatedPatient.Name, newPatient.Name);
+        Assert.Equal(updatedPatient.Age, newPatient.Age);
     }
 
     [Fact]
     public async Task DeleteAsync_ReturnDeletedPatient_IfExists()
     {
         // Arrange & Act
-        var addedPatient = (await _dataContext.AddAsync(new Patient { Name = "Name" })).Entity;
+        var addedPatient = (await _dataContext.AddAsync(new Patient { Age = 20 })).Entity;
         await _dataContext.SaveChangesAsync();
 
         var deletedPatient = await _patientRepository.DeleteAsync(addedPatient.Id)!;
@@ -132,7 +127,7 @@ public class PatientRepositoryTests
 
         // Assert
         Assert.NotNull(deletedPatient);
-        Assert.Equal(deletedPatient.Name, addedPatient.Name);
+        Assert.Equal(deletedPatient.Age, addedPatient.Age);
         Assert.Null(await _dataContext.Patients.FirstOrDefaultAsync(g => g.Id == addedPatient.Id));
     }
 

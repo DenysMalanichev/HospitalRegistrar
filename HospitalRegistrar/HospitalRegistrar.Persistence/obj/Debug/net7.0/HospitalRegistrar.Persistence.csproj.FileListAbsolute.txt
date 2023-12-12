@@ -17,3 +17,5 @@ D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Persistenc
 D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Persistence\obj\Debug\net7.0\ref\HospitalRegistrar.Persistence.dll
 D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Persistence\bin\Debug\net7.0\HospitalRegistrar.Application.dll
 D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Persistence\bin\Debug\net7.0\HospitalRegistrar.Application.pdb
+D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Persistence\bin\Debug\net7.0\HospitalRegistrar.Persistence.runtimeconfig.json
+D:\prog\KPI.NET\HospitalRegistrar\HospitalRegistrar\HospitalRegistrar.Persistence\obj\Debug\net7.0\HospitalRegistrar.Persistence.genruntimeconfig.cache

@@ -1,5 +1,7 @@
 using HospitalRegistrar.Application.Interfaces.Services;
+using HospitalRegistrar.Features.AuthModels;
 using HospitalRegistrar.Features.DoctorFeatures;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalRegistrar.Controllers;
@@ -33,6 +35,7 @@ public class DoctorsController : ControllerBase
     
     [HttpPost]
     [Route("new")]
+    [Authorize(Roles = IdentityRoles.Doctor)]
     public async Task<IActionResult> CreateNewDoctorAsync([FromBody] CreateDoctorDto createDoctorDto)
     {
         var createdDoctor = await _doctorsService.AddNewDoctorAsync(createDoctorDto);

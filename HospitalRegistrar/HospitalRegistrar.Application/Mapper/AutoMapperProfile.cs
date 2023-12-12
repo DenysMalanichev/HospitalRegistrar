@@ -26,5 +26,7 @@ public class AutoMapperProfile : Profile
         CreateMap<CreateTimeSlotDto, TimeSlot>().ReverseMap();
         CreateMap<GetTimeSlotDto, TimeSlot>().ReverseMap();
         CreateMap<UpdateTimeSlotDto, TimeSlot>().ReverseMap();
+        
+        
     }
 }

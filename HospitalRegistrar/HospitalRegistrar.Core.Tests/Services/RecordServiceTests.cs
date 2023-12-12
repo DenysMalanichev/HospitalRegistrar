@@ -38,7 +38,7 @@ public class RecordServiceTests
             PatientId = 2,
             TimeSlotId = 1
         };
-        var patient = new Patient { Id = createRecordDto.PatientId, Name = "Name", Age = 20 };
+        var patient = new Patient { Id = createRecordDto.PatientId, Age = 20 };
         var getRecordDto = new GetRecordDto {
             Id = 1,
             Diagnosis = "diag",

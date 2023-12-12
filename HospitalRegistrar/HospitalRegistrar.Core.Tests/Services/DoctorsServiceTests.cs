@@ -20,7 +20,7 @@ public class DoctorsServiceTests
     {
         // Arrange
         var createDoctorDto = new CreateDoctorDto { Name = "Name", Position = "Nurse" };
-        var doctor = new Doctor { Id = 1, Name = "Name", Position = "Nurse" };
+        var doctor = new Doctor { Id = 1, Position = "Nurse" };
         var getDoctorDto = new GetDoctorDto { Id = 1, Name = "Name", Position = "Nurse" };
 
         _doctorRepositoryMock.Setup(repo => repo.AddAsync(doctor))
@@ -46,8 +46,8 @@ public class DoctorsServiceTests
         // Arrange
         var doctors = new List<Doctor>
         {
-            new() { Id = 1, Name = "Name", Position = "Nurse" },
-            new() { Id = 2, Name = "Name1", Position = "Nurse1" },
+            new() { Id = 1, Position = "Nurse" },
+            new() { Id = 2, Position = "Nurse1" },
         };
         var doctorsDtos = new List<GetDoctorDto>
         {
@@ -69,7 +69,6 @@ public class DoctorsServiceTests
         Assert.NotNull(returnedDoctorsDtos);
         Assert.IsAssignableFrom<IEnumerable<GetDoctorDto>>(returnedDoctorsDtos);
         Assert.Equal(doctors.Count, returnedDoctorsDtos.Count);
-        Assert.Equal(doctors[0].Name, returnedDoctorsDtos[0].Name);
         Assert.Equal(doctors[1].Position, returnedDoctorsDtos[1].Position);
     }
     
@@ -78,7 +77,7 @@ public class DoctorsServiceTests
     {
         // Arrange
         const int id = 1;
-        var doctor = new Doctor {  Id = id, Name = "Name", Position = "Nurse" };
+        var doctor = new Doctor {  Id = id, Position = "Nurse" };
         var doctorDto = new GetDoctorDto { Id = id, Name = "Name", Position = "Nurse" };
 
         _doctorRepositoryMock.Setup(repo => repo.GetByIdAsync(id)!)
@@ -93,7 +92,6 @@ public class DoctorsServiceTests
 
         // Assert
         Assert.NotNull(returnedDoctorDto);
-        Assert.Equal(doctor.Name, returnedDoctorDto.Name);
         Assert.Equal(doctor.Id, returnedDoctorDto.Id);
     }
     
@@ -115,7 +113,7 @@ public class DoctorsServiceTests
         // Arrange
         const int id = 1;
         var doctorToUpdateDto = new UpdateDoctorDto {  Id = id, Name = "New Name", Position = "New Nurse" };
-        var doctor = new Doctor {  Id = id, Name = "Name", Position = "Nurse" };
+        var doctor = new Doctor {  Id = id, Position = "Nurse" };
         var doctorDto = new GetDoctorDto { Id = id, Name = "New Name", Position = "New Nurse" };
 
         _doctorRepositoryMock.Setup(repo => repo.UpdateAsync(id, doctor))
@@ -159,7 +157,7 @@ public class DoctorsServiceTests
     {
         // Arrange
         const int id = 1;
-        var doctor = new Doctor {  Id = id, Name = "Name", Position = "Nurse" };
+        var doctor = new Doctor {  Id = id, Position = "Nurse" };
         var doctorDto = new GetDoctorDto { Id = id, Name = "Name", Position = "Nurse" };
 
         _doctorRepositoryMock.Setup(repo => repo.DeleteAsync(id)!)
@@ -176,7 +174,6 @@ public class DoctorsServiceTests
 
         // Assert
         Assert.NotNull(returnedDoctorDto);
-        Assert.Equal(doctor.Name, returnedDoctorDto.Name);
         Assert.Equal(doctorDto.Id, returnedDoctorDto.Id);
     }
     
@@ -186,7 +183,7 @@ public class DoctorsServiceTests
         // Arrange
         const int doctorId = 1;
         const int timeSlotId = 2;
-        var doctor = new Doctor {  Id = doctorId, Name = "Name", Position = "Nurse", TimeSlots = new List<TimeSlot>()};
+        var doctor = new Doctor {  Id = doctorId, Position = "Nurse", TimeSlots = new List<TimeSlot>()};
         var timeSlot = new TimeSlot
         {
             Id = timeSlotId,
