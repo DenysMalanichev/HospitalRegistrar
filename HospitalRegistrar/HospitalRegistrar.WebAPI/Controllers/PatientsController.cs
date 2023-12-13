@@ -1,5 +1,7 @@
 using HospitalRegistrar.Application.Interfaces.Services;
+using HospitalRegistrar.Features.AuthModels;
 using HospitalRegistrar.Features.PatientFeatures;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalRegistrar.Controllers;
@@ -42,6 +44,7 @@ public class PatientsController : ControllerBase
     
     [HttpPut]
     [Route("update")]
+    [Authorize(Roles = IdentityRoles.Patient)]
     public async Task<IActionResult> UpdatePatientAsync([FromBody] UpdatePatientDto updatePatientDto)
     {
         var updatedPatient = await _patientService.UpdatePatientAsync(updatePatientDto);
@@ -51,6 +54,7 @@ public class PatientsController : ControllerBase
     
     [HttpDelete]
     [Route("delete/{id:int}")]
+    [Authorize(Roles = IdentityRoles.Patient)]
     public async Task<IActionResult> DeletePatientAsync(int id)
     {
         var deletedPatient = await _patientService.DeletePatientAsync(id);

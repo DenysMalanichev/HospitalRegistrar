@@ -1,6 +1,8 @@
 using HospitalRegistrar.Application.Interfaces.Services;
+using HospitalRegistrar.Features.AuthModels;
 using HospitalRegistrar.Features.TimeSlotFeatures;
 using HospitalRegistrar.Features.TimeSlotFeatures.Specification;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalRegistrar.Controllers;
@@ -43,6 +45,7 @@ public class TimeSlotsController : ControllerBase
     
     [HttpPost]
     [Route("new")]
+    [Authorize(Roles = IdentityRoles.Doctor)]
     public async Task<IActionResult> CreateNewTimeSlotAsync([FromBody] CreateTimeSlotDto createTimeSlotDto)
     {
         var timeSlot = await _timeSlotService.AddNewTimeSlotAsync(createTimeSlotDto);
@@ -52,6 +55,7 @@ public class TimeSlotsController : ControllerBase
     
     [HttpPut]
     [Route("update")]
+    [Authorize(Roles = IdentityRoles.Doctor)]
     public async Task<IActionResult> UpdateTimeSlotAsync([FromBody] UpdateTimeSlotDto updateTimeSlotDto)
     {
         var timeSlot = await _timeSlotService.UpdateTimeSlotAsync(updateTimeSlotDto);
@@ -61,6 +65,7 @@ public class TimeSlotsController : ControllerBase
     
     [HttpDelete]
     [Route("delete")]
+    [Authorize(Roles = IdentityRoles.Doctor)]
     public async Task<IActionResult> DeleteTimeSlotAsync(int id)
     {
         var timeSlots = await _timeSlotService.DeleteTimeSlotAsync(id);

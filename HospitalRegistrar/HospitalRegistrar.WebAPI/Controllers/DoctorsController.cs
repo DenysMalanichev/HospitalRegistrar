@@ -45,6 +45,7 @@ public class DoctorsController : ControllerBase
 
     [HttpPost]
     [Route("add-timeslot/{doctorId:int}/{timeSlotId:int}")]
+    [Authorize(Roles = IdentityRoles.Doctor)]
     public async Task<IActionResult> AssociateDoctorAndTimeSlot(int doctorId, int timeSlotId)
     {
         var doctorWithTimeSlot = await _doctorsService.AssociateWithTimeSlot(doctorId, timeSlotId);
@@ -54,6 +55,7 @@ public class DoctorsController : ControllerBase
 
     [HttpPut]
     [Route("update")]
+    [Authorize(Roles = IdentityRoles.Doctor)]
     public async Task<IActionResult> UpdateDoctorAsync([FromBody] UpdateDoctorDto updateDoctorDto)
     {
         var updatedDoctor = await _doctorsService.UpdateDoctorAsync(updateDoctorDto);
@@ -63,6 +65,7 @@ public class DoctorsController : ControllerBase
     
     [HttpDelete]
     [Route("delete/{id:int}")]
+    [Authorize(Roles = IdentityRoles.Doctor)]
     public async Task<IActionResult> DeleteDoctorAsync(int id)
     {
         var deletedDoctor = await _doctorsService.DeleteDoctorAsync(id);
